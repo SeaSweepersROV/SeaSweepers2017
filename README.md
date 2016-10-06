@@ -8,6 +8,8 @@ Our system consists of two Arduinos in our control box. One of these Arduinos re
 The other unique part of our ROV is our sensors and how we display our sensor data. Another Arduino in the vehicle's tube collects all the data from various sensors, such as a temperature sensor, depth sensor, and water leak sensor. This data is then converted to bytes and sent through serial (RS-232). Another Arduino in the control box interprets these bytes and sends them to the Raspberry Pi, which is using a Python script to display this data.
 Our Python code (ROVCode.py) runs on our Raspberry Pi. Using a program written completely from scratch, we are able to clearly and easily display our sensor data with different types of graphical displays as well as organized data such as number displays. 
 
+For the 2017 season, we are going to experiment with vehicle stabilization as well in order to create an easier environment for our pilot to control the vehicle. We will achieve this with different sensors communicating directly with our motor code, and we are exctied to tackle this challenge.
+
 We are proud of the work we have achieved, as this is the first year the Sea Sweepers have used any type of software on our vehicles before. This was a big leap for us and we've found it to be quite successful.
 
-Feel free to use this code to help yourself, and if you have any questions about the code feel free to contact either Michael Georgariou OR Marco Pizarro-Silva, the Sea Sweepers' two software engineers for the 2017 MATE ROV season.
+Feel free to use this code to help yourself, and if you have any questions about the code feel free to contact either Michael Georgariou (michael@seasweepersrov.com) OR Marco Pizarro-Silva (marco@seasweepersrov.com), the Sea Sweepers' two software engineers for the 2017 MATE ROV season.
