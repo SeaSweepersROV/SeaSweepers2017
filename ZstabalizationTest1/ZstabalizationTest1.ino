@@ -41,12 +41,12 @@ void loop() {
 
   /*
   buttonState = digitalRead(##buttonPin##);
-  // if putton pressed, ACTIVATE Z
+  // if putton pressed, ACTIVATE Z Stabalization
   if(buttonState == HIGH && !lockedZ){
     depthSavedState = sensor.depth();
     lockedZ = true;
   }
-  // if putton pressed, DEACTIVATE Z
+  // if putton pressed, DEACTIVATE Z Stabalization
   if(buttonState == HIGH && lockedZ){
     depthSavedState = sensor.depth();
     lockedZ = false;
