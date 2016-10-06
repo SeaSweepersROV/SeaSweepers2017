@@ -57,11 +57,13 @@ void loop() {
       if(sensor.depth() > depthSavedState){
           // Move ROV DOWN
           // Insert MOTOR CODE here
+          // michael note: use map to max it from max to zero. you'll remember
       }
     // if ROV is below saved state
       if(sensor.depth() < depthSavedState){
           // Move ROV UP 
           // Insert MOTOR CODE here
+          // michael note: use map to max it from max to zero. you'll remember
       }
       
     }
