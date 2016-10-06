@@ -58,12 +58,16 @@ void loop() {
           // Move ROV DOWN
           // Insert MOTOR CODE here
           // michael note: use map to max it from max to zero. you'll remember
+          // move from up to down (closer to depth saved, closer to zero
+          // map(x, max sensor, depthSavedState, 255, 0)
       }
     // if ROV is below saved state
       if(sensor.depth() < depthSavedState){
           // Move ROV UP 
           // Insert MOTOR CODE here
           // michael note: use map to max it from max to zero. you'll remember
+          // move from up to down (closer to depth saved, closer to zero
+          // map(x, max sensor, depthSavedState, 0, 255)
       }
       
     }
