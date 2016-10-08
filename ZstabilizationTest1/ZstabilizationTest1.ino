@@ -41,17 +41,17 @@ void loop() {
 
   /*
   buttonState = digitalRead(##buttonPin##);
-  // if putton pressed, ACTIVATE Z Stabalization
+  // if putton pressed, ACTIVATE Z Stabilization
   if(buttonState == HIGH && !lockedZ){
     depthSavedState = sensor.depth();
     lockedZ = true;
   }
-  // if putton pressed, DEACTIVATE Z Stabalization
+  // if putton pressed, DEACTIVATE Z Stailization
   if(buttonState == HIGH && lockedZ){
     depthSavedState = sensor.depth();
     lockedZ = false;
   }
-    // if Z STABLAIZATION = ACTIVE
+    // if Z STABILIZATION = ACTIVE
     while(lockedZ){
     // if ROV is above saved state
       if(sensor.depth() > depthSavedState){
