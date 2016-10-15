@@ -68,7 +68,7 @@ class App():
 		self.root.minsize(width=1440, height=880)
 		self.root.maxsize(width=1440, height=880)
 		self.root.configure(bg ="gray")
-		dataLabel = ['Volt (V)','Amp (A)','Inside Temp (C)','Inside Temp (F)','Probe Temperature','Pressure', 
+		dataLabel = ['Volt (V)','Amp (A)','Inside Temp (C)','Inside Temp (F)','Probe Temperature','Pressure',
 		'V1','V2','V3','V4','H5','H6','H7','H8'] #set some labels
 		x=1
 		c=2
@@ -85,16 +85,16 @@ class App():
 				continue
 			self.l = tk.Label(text=l, bg ="gray").grid(column=0,row=x,columnspan=2)
 			x+=2
-			
+
 		self.warningTitle = tk.Label(text="WARNING", bg="yellow", width=10,height=2)
 		self.stopTitle = tk.Label(text="STOP", bg="red", width=10,height=2)
-		
+
 		#LabelsData
-		self.voltData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2) 
+		self.voltData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
 		self.ampData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
 		self.temperatureData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
 		self.insideTempF = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
-		self.probeTemperatureDataCelcius = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)				 
+		self.probeTemperatureDataCelcius = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
 		self.pressureData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
 		self.waterLeak = tk.Label(text="Water Leak", bg ="gray", width=10)
 		self.waterSensorDataOne = tk.Label(text="TBD", relief=tk.SUNKEN, width=20,height=2)
@@ -110,36 +110,36 @@ class App():
 		self.motorSixData = tk.Label(text="TBD", relief=tk.SUNKEN,width=6,height=2)
 		self.motorSevenData = tk.Label(text="TBD", relief=tk.SUNKEN,width=6,height=2)
 		self.motorEightData = tk.Label(text="TBD", relief=tk.SUNKEN,width=6,height=2)
-		
-		#extra data points 
+
+		#extra data points
 		self.aTitle = tk.Label(text="Servo Claw", bg ="gray") #used for servo
 		self.aData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
 		self.bTitle = tk.Label(text="Y", bg ="gray")
-		self.bData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)	   
+		self.bData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
 		self.cTitle = tk.Label(text="          ", bg ="gray")
 		self.cData = tk.Label(text="TBD",relief=tk.SUNKEN,width=5,height=2)
-		
+
 		#depth Datas and Labels	mission 1
 		self.currentDepthTitle = tk.Label(text="Current Depth (m)", bg ="gray")
 		self.currentDepthData = tk.Label(text="TBD",relief=tk.SUNKEN,width=20,height=2)
 		self.topDepthTitle = tk.Label(text="Starting Depth", bg ="orange")
 		self.topDepthData = tk.Label(text="TBD",relief=tk.SUNKEN,width=10,height=2)
 		self.middleDepthTitle = tk.Label(text="Middle Depth", bg ="red")
-		self.middleDepthData = tk.Label(text="TBD",relief=tk.SUNKEN,width=10,height=2)		  
+		self.middleDepthData = tk.Label(text="TBD",relief=tk.SUNKEN,width=10,height=2)
 		self.bottomDepthTitle = tk.Label(text="Bottom Depth", bg ="yellow")
 		self.bottomDepthData = tk.Label(text="TBD",relief=tk.SUNKEN,width=10,height=2)
-		
+
 		#depth buttons
 		self.topDepthButton = tk.Button(text="top",width=7,highlightbackground="gray",command= self.topDepthValue)
 		self.middleDepthButton = tk.Button(text="middle",width=7,highlightbackground="gray", command=self.middleDepthValue)
 		self.bottomDepthButton = tk.Button(text="bottom",width=7,highlightbackground="gray", command=self.bottomDepthValue)
-		
+
 		#difference in depths
 		self.iceDepth = tk.Label(text="Ice Depth", bg ="gray")
 		self.oceanDepth = tk.Label(text="Ocean Depth", bg ="gray")
 		self.iceData = tk.Label(text="TBD", relief=tk.SUNKEN,width=5)
 		self.oceanData = tk.Label(text="TBD", relief=tk.SUNKEN,width=5)
-		
+
 		#temp datas and labels mission 2
 		self.probeTempTitle = tk.Label(text="Probe Temp", bg ="gray")
 		self.probeData = tk.Label(text="TBD",relief=tk.SUNKEN,width=10,height=2)
@@ -147,18 +147,18 @@ class App():
 		self.C = tk.Label(text="Celcius", bg ="gray",width=10,height=2)
 		self.F = tk.Label(text="Fahrenheit", bg ="gray",width=10,height=2)
 		self.probeButton = tk.Button(text="top",width=7,highlightbackground="gray",command=self.probeTempValue)
-				
+
 		#top right stuff
 		self.timerTitle = tk.Label(text="Timer", bg="gray",width=15,height=2)
 		self.timerButton = tk.Button(text= "Start", bg="gray", width=12,height=2,highlightbackground="gray", command=self.getTime)
 		self.timerData = tk.Label(text="00:00", relief=tk.SUNKEN, width=7,height=1,font=("Rockwell", 100),bg="green")
 		#self.timerData = tk.Label(text="00:00", relief=tk.SUNKEN, width=7,height=1,font=("Rockwell", 80),bg="green")#for raspberry pi
 		self.dataButton = tk.Button(text="compile data", bg="gray", width=12,height=2,highlightbackground="gray", command=self.getData)
-		
+
 		#depthCanvas for depth
 		self.depthCanvas = tk.Canvas(self.root, width=800, height = 500, background= "blue",bd=0,highlightthickness=1)
 		self.rov2 = self.depthCanvas.create_polygon(0, 0, 40, 0, 40,5, 30,5, 30,15, 40,15, 40,20, 0,20, 0,15, 10,15, 10,5, 0,5, 0,0,outline='black', fill='black')
-		self.light = self.depthCanvas.create_arc(0, -10, 90, 30,start=-30,outline='blue', fill='white',extent=60)		
+		self.light = self.depthCanvas.create_arc(0, -10, 90, 30,start=-30,outline='blue', fill='white',extent=60)
 		self.topDepthLine = self.depthCanvas.create_line(0,0,800,0, fill = "orange",width=3, dash=(8, 8))
 		self.middleDepthLine = self.depthCanvas.create_line(0,0,800,0, fill = "red",width=3, dash=(8, 8))
 		self.bottomDepthLine = self.depthCanvas.create_line(0,0,800,0, fill = "yellow",width=3, dash=(8, 8))
@@ -170,14 +170,14 @@ class App():
 		cap = 100
 		self.capWhite = self.depthCanvas.create_polygon(cap,480, cap+15,480, cap+15,410, cap+35,410, cap+35,480, cap+50,480, cap+50,500, cap,500,fill="white",outline="black")
 		self.capLid = self.depthCanvas.create_rectangle(cap-2,480, cap+52,480,fill="white",outline="black")
-		self.flange = self.depthCanvas.create_rectangle(cap+10,410, cap+40,440,fill="black",outline="black")						
+		self.flange = self.depthCanvas.create_rectangle(cap+10,410, cap+40,440,fill="black",outline="black")
 		self.bolt = self.depthCanvas.create_polygon(cap+18,410, cap+12,410, cap+12,407, cap+25,407, cap+25,402, cap+5,402, cap+5,407, cap+18,407,fill="white", outline="black")
-		self.bolt = self.depthCanvas.create_polygon(cap+38,410, cap+32,410, cap+32,407, cap+45,407, cap+45,402, cap+25,402, cap+25,407, cap+38,407,fill="white", outline="black")		
+		self.bolt = self.depthCanvas.create_polygon(cap+38,410, cap+32,410, cap+32,407, cap+45,407, cap+45,402, cap+25,402, cap+25,407, cap+38,407,fill="white", outline="black")
 		cube = 500
-		self.cubeSateOutside = self.depthCanvas.create_rectangle(cube,460, cube+70,500,width=1,fill="white",outline="black")		
+		self.cubeSateOutside = self.depthCanvas.create_rectangle(cube,460, cube+70,500,width=1,fill="white",outline="black")
 		self.cubeSateMiddle = self.depthCanvas.create_rectangle(cube+5,465, cube+65,495,width=1,fill="blue",outline="white")
 		self.cubeSateInside = self.depthCanvas.create_rectangle(cube+10,470, cube+60,490,fill="white",outline="white")
-		self.cubeSateLine = self.depthCanvas.create_line(cube+5, 480, cube+65,480, fill="white",width=5)		
+		self.cubeSateLine = self.depthCanvas.create_line(cube+5, 480, cube+65,480, fill="white",width=5)
 		self.cubeSatNumber = self.depthCanvas.create_text(cube+35, 480, text="H139D")
 		coral =550
 		self.coralBranchOne = self.depthCanvas.create_line(coral+3, 475, coral+15, 490, fill = "red",width=2)
@@ -205,7 +205,7 @@ class App():
 		self.box = self.depthCanvas.create_polygon(ESP+50,450, ESP+100,450, ESP+100,500, ESP+50,500,fill="red",outline="black")
 		self.connector = self.depthCanvas.create_polygon(ESP,480, ESP+20,480, ESP+20,470, ESP+30,470, ESP+30,480, ESP+60,480, ESP+60,490, ESP+30,490, ESP+30,500, ESP+20,500, ESP+20,490, ESP,490, fill="white",outline="black")
 		self.connectorLine = self.depthCanvas.create_line(ESP,485, ESP-10,480, fill="orange")
-		self.connectorLineT = self.depthCanvas.create_line(ESP-10,480, ESP-40,490, fill="orange")		
+		self.connectorLineT = self.depthCanvas.create_line(ESP-10,480, ESP-40,490, fill="orange")
 		#servoCanvas
 		self.servoCanvas = tk.Canvas(self.root, width=200, height = 150, background= "blue")
 		self.servoClawRight = self.servoCanvas.create_polygon(0,0, 20,0, 20,10, 30,10, 30,30, 20,30, 20,100, 0,100, outline='black', fill='black')
@@ -225,30 +225,30 @@ class App():
 		self.compassArcFour = self.compassCanvas.create_arc(10, 10, 190, 190,start=90, fill='red',extent=0)
 		self.compassLineOne = self.compassCanvas.create_line(100,100,10,60, fill="red",arrow=tk.LAST, arrowshape=(70,75,3))
 		self.compassLineTwo = self.compassCanvas.create_line(100,100,10,60,arrow=tk.LAST, arrowshape=(50,55,3))
-		self.middle = self.compassCanvas.create_oval(95,95,105,105, outline='black', fill='white')		
+		self.middle = self.compassCanvas.create_oval(95,95,105,105, outline='black', fill='white')
 
 		#motorControl canvas
 		self.motorControl = tk.Canvas(self.root, width=200, height = 200, background= "blue")
 		self.hexagon = self.motorControl.create_polygon(25,75,75,25,125,25,175,75,175,135,125,185,75,185,25,135, outline='black', fill='black')
 		self.V1 = self.motorControl.create_oval(40,40,60,60, outline='black', fill='white')
-		self.V1R = self.motorControl.create_arc(40,40,60,60, start=90, fill='green',extent=0)#tk.CHORDS?		
-		self.V2 = self.motorControl.create_oval(140,40,160,60, outline='black', fill='white')		
-		self.V2R = self.motorControl.create_arc(140,40,160,60, start=90, fill='green',extent=0)		
+		self.V1R = self.motorControl.create_arc(40,40,60,60, start=90, fill='green',extent=0)#tk.CHORDS?
+		self.V2 = self.motorControl.create_oval(140,40,160,60, outline='black', fill='white')
+		self.V2R = self.motorControl.create_arc(140,40,160,60, start=90, fill='green',extent=0)
 		self.V3 = self.motorControl.create_oval(40,150,60,170, outline='black', fill='white')
-		self.V3R = self.motorControl.create_arc(40,150,60,170, start=90, fill='green',extent=0)				
-		self.V4 = self.motorControl.create_oval(140,150,160,170, outline='black', fill='white')	
-		self.V4R = self.motorControl.create_arc(140,150,160,170, start=90, fill='green',extent=0)			
+		self.V3R = self.motorControl.create_arc(40,150,60,170, start=90, fill='green',extent=0)
+		self.V4 = self.motorControl.create_oval(140,150,160,170, outline='black', fill='white')
+		self.V4R = self.motorControl.create_arc(140,150,160,170, start=90, fill='green',extent=0)
 		self.H1 = self.motorControl.create_polygon(50,80,80,50,90,60,60,90,50,80, outline='black', fill='white')
 		self.H1R = self.motorControl.create_polygon(65,65,80,50,90,60,75,75,65,65,outline='black',fill='green')
 		self.H2 = self.motorControl.create_polygon(150,80,120,50,110,60,140,90,150,80, outline='black', fill='white')
 		self.H2R = self.motorControl.create_polygon(135,65,120,50,110,60,125,75,135,65,outline='black',fill='green')
 		self.H3 = self.motorControl.create_polygon(50,120,80,150,90,140,60,110,50,120, outline='black', fill='white')
 		self.H3R = self.motorControl.create_polygon(65,135,80,150,90,140,75,125,65,135,outline='black',fill='green')
-		self.H4 = self.motorControl.create_polygon(150,120,120,150,110,140,140,110,150,120, outline='black', fill='white')	
+		self.H4 = self.motorControl.create_polygon(150,120,120,150,110,140,140,110,150,120, outline='black', fill='white')
 		self.H4R = self.motorControl.create_polygon(135,135,120,150,110,140,125,125,135,135,outline='black',fill='green')
 		#error display
 		self.errorLog = tk.Text(self.root, width=45, height=4)
-		self.messageLog = tk.Text(self.root, width=45, height=4)		
+		self.messageLog = tk.Text(self.root, width=45, height=4)
 		#grid layout
 		#left column
 		self.warningTitle.grid(			 column=0,	row=0)
@@ -256,11 +256,11 @@ class App():
 		self.voltData.grid(				 column=0,	row=2,	columnspan=2)
 		self.ampData.grid(				 column=0,	row=4,	columnspan=2)
 		self.temperatureData.grid(		 column=0,	row=6,	columnspan=2)
-		self.angle.grid(				 column=2,	row=6,	columnspan=4)		 
+		self.angle.grid(				 column=2,	row=6,	columnspan=4)
 		self.insideTempF.grid(			 column=0,	row=8,	columnspan=2)
 		self.probeTemperatureDataCelcius.grid(column=0,row=10,columnspan=2)
 		self.pressureData.grid(			 column=0,	row=12, columnspan=2)
-		self.waterLeak.grid(			 column=6,	row=0) 
+		self.waterLeak.grid(			 column=6,	row=0)
 		self.waterSensorDataOne.grid(	 column=2,	row=0,	columnspan=4)
 		self.waterSensorDataTwo.grid(	 column=7,	row=0,	columnspan=2)
 		#motor grid
@@ -278,12 +278,12 @@ class App():
 		#self.bTitle.grid(				 column=6,	row=15)
 		#self.bData.grid(				 column=6,	row=16)
 		#self.cTitle.grid(				 column=9,	row=15)
-		#self.cData.grid(				 column=9,	row=16)	  
+		#self.cData.grid(				 column=9,	row=16)
 		#right side
 		self.timerTitle.grid(			 column=10,	row=2,	columnspan= 2)
 		self.timerButton.grid(			 column=12,	row=2,	columnspan= 3)
 		self.dataButton.grid(			 column=12,	row=3,	columnspan= 3)
-		self.timerData.grid(			 column=10,	row=0,	columnspan= 5, rowspan=2) 
+		self.timerData.grid(			 column=10,	row=0,	columnspan= 5, rowspan=2)
 		self.currentDepthTitle.grid(	 column=10,	row=3,	columnspan= 2)
 		self.currentDepthData.grid(		 column=10,	row=4,	columnspan= 2)
 		self.topDepthTitle.grid(		 column=10,	row=5)
@@ -301,7 +301,7 @@ class App():
 		self.oceanData.grid(			 column=12,	row=9)
 		#probe right side
 		self.probeTempTitle.grid(		 column=10,	row=11)
-		self.probeButton.grid(			 column=11,	row=11)		   
+		self.probeButton.grid(			 column=11,	row=11)
 		self.probeData.grid(			 column=10,	row=12)
 		self.probeDataF.grid(			 column=11,	row=12)
 		self.C.grid(					 column=10,	row=13)
@@ -315,7 +315,7 @@ class App():
 		self.messageLog.grid(           column=9,   row=15, columnspan=4,  rowspan=2)
 		self.update_data()
 		self.root.mainloop()
-		
+
 	#functions
 	def getData(self):
 		global dataList
@@ -336,7 +336,7 @@ class App():
 		labelDepth = tb[:length] + "." + tb[length:]
 		self.topDepthData.configure(text=labelDepth)
 		topDepthNumber = float(tb)
-		self.depthCanvas.update() 
+		self.depthCanvas.update()
 	def middleDepthValue(self):
 		global depthBuffer
 		global middleDepthNumber
@@ -364,7 +364,7 @@ class App():
 		except:
 			self.probeDataF.configure(text="ERR")
 			self.probeData.configure(text="ERR")
-	
+
 	def updateClock(self):
 		now = time.time()
 		global startTime
@@ -383,9 +383,9 @@ class App():
 		timeElapsed = str(minutes)+":"+str(seconds)
 		timeInWater = timeElapsed
 		self.timerData.configure(text=timeElapsed)
-		self.root.after(1000, self.updateClock)		   
+		self.root.after(1000, self.updateClock)
 		#timer function
-	
+
 	def getTime(self):
 		global z
 		z=0
@@ -394,7 +394,7 @@ class App():
 		global startTime
 		startTime = int(start)
 		self.updateClock()
-	
+
 	def update_data(self):
 		global dataList
 		global timeInWater
@@ -425,7 +425,7 @@ class App():
 		limits = ['30','35','10000','200000','3000', '3500','10000','10000','10000','10000','10000','10000','10000',
 		'10000','10000','10000','10000','10000','10000','10000','10000','1000','10','13','1000','1000','100','100',
 		'100','100','100','100','1000','1000','50','100','50','100']
-		global color 
+		global color
 		global motorColor
 		global w
 		global coords
@@ -444,7 +444,7 @@ class App():
 					#print item
 					a = 1
 					try:
-						while dataArray[int(item)+a] != head[(2*c)+1]: 
+						while dataArray[int(item)+a] != head[(2*c)+1]:
 							buf += dataArray[int(item)+a]
 							a +=1
 						#print int(buf) data points
@@ -463,7 +463,7 @@ class App():
 								#ser.open
 								#ser.write(b'1')
 								#ser.close
-							else: 
+							else:
 								color = "white"
 								if w == 0:
 									self.warningTitle.configure(bg = "gray")
@@ -471,13 +471,13 @@ class App():
 									#ser.open
 									#ser.write(b'0')
 									#ser.close
-					except: 
+					except:
 						print "bad data" + str(c)
 					if c == 0:
 						try:
 							self.temperatureData.configure(text=buf,bg = color)
 							global tempBuffer
-							tempBuffer = buf				
+							tempBuffer = buf
 							f = self.tempConversion("i")
 							self.insideTempF.configure(text=f, bg = color)
 						except:
@@ -577,8 +577,8 @@ class App():
 		global zz
 		global tickerForDepth #will replace z
 		global coords
-		global color 
-		global depthBuffer 
+		global color
+		global depthBuffer
 		global timeInWater
 		global lightBuffer
 		global lightX1
@@ -594,10 +594,10 @@ class App():
 					#print item
 					a = 1
 					try:
-						while dataArray[int(item)+a] != 'D': 
+						while dataArray[int(item)+a] != 'D':
 							depthBuffer += dataArray[int(item)+a]
 							a +=1
-					except: 
+					except:
 						print "bad depthData"
 					try:
 						coords = int(depthBuffer)
@@ -605,17 +605,17 @@ class App():
 							second = timeInWater[4:]
 							if (second != tickerForDepth):
 								self.depthCanvas.coords(self.rov2, 0+z, 0+(coords), 40+z, 0+(coords), 40+z,5+(coords), 30+z,5+(coords), 30+z,15+(coords), 40+z,15+(coords), 40+z,20+(coords), 0+z,20+(coords), 0+z,15+(coords), 10+z,15+(coords), 10+z,5+(coords), 0+z,5+(coords), 0+z,0+(coords))
-								self.depthCanvas.coords(self.light, lightX1+z, lightY1+(coords), lightX2+z, lightY2+(coords))		
+								self.depthCanvas.coords(self.light, lightX1+z, lightY1+(coords), lightX2+z, lightY2+(coords))
 								global lineCoordsX
 								global lineCoordsY #coords for line
 								item = self.depthCanvas.create_line(lineCoordsX, lineCoordsY, z, (coords), fill = "white",width=1)
 								lineCoordsX=z
-								lineCoordsY=(coords)			
-								tickerForDepth = second	
+								lineCoordsY=(coords)
+								tickerForDepth = second
 								if ((zz%5)!=0):
 									z+=1
-								zz+=1	
-							
+								zz+=1
+
 							self.depthCanvas.coords(self.topDepthLine,0,topDepthNumber,800,topDepthNumber)
 							self.depthCanvas.coords(self.middleDepthLine,0,middleDepthNumber,800,middleDepthNumber)
 							self.depthCanvas.coords(self.bottomDepthLine,0,bottomDepthNumber,800,bottomDepthNumber)
@@ -628,16 +628,16 @@ class App():
 						self.oceanData.configure(text=ocean)
 					except:
 						print"bad depth"
-						
+
 					length = len(depthBuffer)
 					length = length - 2
 					labelDepth = depthBuffer[:length] + "." + depthBuffer[length:]
 					self.currentDepthData.configure(text=labelDepth,bg = color)
-					
+
 	def compassData(self,angle):
 		global previousAngle
 		global looops
-		try: 
+		try:
 			pi = int(angle)
 			previousAngle = ""
 			previousAngle += angle
@@ -674,7 +674,7 @@ class App():
 			self.compassCanvas.itemconfigure(self.compassArcFour, extent=0)
 		if looops == 7:
 			self.compassCanvas.itemconfigure(self.compassArcTwo, extent=359)
-			self.compassCanvas.itemconfigure(self.compassArcFour, extent=r)		
+			self.compassCanvas.itemconfigure(self.compassArcFour, extent=r)
 		if looops == 3:
 			self.compassCanvas.itemconfigure(self.compassArc, extent=0)
 			self.compassCanvas.itemconfigure(self.compassArcNegativeFour, extent=0)
@@ -700,7 +700,7 @@ class App():
 	def motorCanvasColor(self, buf):
 		try:
 			if int(buf)>500:
-				return "orange"		
+				return "orange"
 			elif int(buf)>300:
 				return "yellow"
 			elif int(buf)>100:
@@ -758,7 +758,7 @@ class App():
 				lightY2=10+(yVal)
 				self.depthCanvas.itemconfigure(self.light,start= st,extent =lightBeam)
 		except:
-			print "bad beam"							
+			print "bad beam"
 
 	def joyStickConversion(self):
 		global joyStickOneBuffer
@@ -800,7 +800,7 @@ class App():
 				vOne = joyStickFour
 				vTwo = joyStickFour
 				vThree = -int(joyStickFour)
-				vFour = -int(joyStickFour)	
+				vFour = -int(joyStickFour)
 			if (joyStickTwo > 50) or (joyStickTwo < -50):
 				hOne = joyStickTwo
 				hTwo = joyStickTwo
@@ -830,7 +830,7 @@ class App():
 			self.motorTwoData.configure(text=vTwo)
 			self.motorThreeData.configure(text=vThree)
 			self.motorFourData.configure(text=vFour)
-			
+
 			self.motorFiveData.configure(text=hOne)
 			self.motorSixData.configure(text=hTwo)
 			self.motorSevenData.configure(text=hThree)
@@ -876,6 +876,6 @@ class App():
 		return joyStick
 
 
-		
+
 
 app=App()
