@@ -14,7 +14,7 @@ void setup() {
 
   sensor.init();
 
-  sensor.setFluidDensity(1001); // kg/m^3 (997 freshwater, 1029 for seawater)
+  sensor.setFluidDensity(997); // kg/m^3 (997 freshwater, 1029 for seawater) (Use 1001 for chlorine pool)
 }
 
 void loop() {
