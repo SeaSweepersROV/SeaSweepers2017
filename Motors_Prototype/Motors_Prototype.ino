@@ -63,16 +63,16 @@ void loop() {
   if (2CMap > 1600) {
     Crab = map(2CMap, 1600, 1900, 0, 400);
     if ((2AMap - Crab) > 1100){
-      H2.write(2AMap + Crab);
-      H3.write(2AMap + Crab);
+      H2.write(2AMap - Crab);
+      H3.write(2AMap - Crab);
     }
     else {
       H2.write(2AMap);
       H3.write(2AMap);
     }
     if ((2BMap + Crab) < 1900) {
-      H1.write(2BMap - Crab);
-      H4.write(2BMap - Crab);
+      H1.write(2BMap + Crab);
+      H4.write(2BMap + Crab);
     }
     else {
       H1.write(2BMap);
