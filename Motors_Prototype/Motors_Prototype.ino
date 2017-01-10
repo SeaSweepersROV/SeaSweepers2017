@@ -17,17 +17,17 @@ Servo V3;
 Servo V4;
 
 int Joystick1A; //vertical
-  int 1AMap;
+  int Map1A;
 int Joystick1B;
-  int 1BMap;
+  int Map1B;
 int Joystick1C;
-  int 1CMap;
+  int Map1C;
 int Joystick2A; //horizontal
-  int 2AMap;
+  int Map2A;
 int Joystick2B;
-  int 2BMap;
+  int Map2B;
 int Joystick2C;
-  int 2CMap;
+  int Map2C;
 
 int Crab;
 int Pitch;
@@ -45,106 +45,126 @@ void setup() {
 }
 
 void loop() {
-  1AMap = map(Joystick1A, 0, 1023, 1100, 1900);
-  1BMap = map(Joystick1B, 0, 1023, 1100, 1900);
-  1CMap = map(Joystick1C, 0, 1023, 1100, 1900); 
-  2AMap = map(Joystick2A, 0, 1023, 1100, 1900);
-  2BMap = map(Joystick2B, 0, 1023, 1100, 1900);
-  2CMap = map(Joystick2C, 0, 1023, 1100, 1900);
+
+MotorWrite();
+LEDs();
+
+}
 
 
-  if ((2CMap < 1600) && (2CMap > 1400)) { //if 2CMap is neutral
-    H2.write(2AMap);
-    H3.write(2AMap);
-    H1.write(2BMap);
-    H4.write(2BMap);
+
+void MotorWrite() { // Writes joystick values to ESCs
+  
+  MapJoysticks();
+  
+  
+    if ((Map2C < 1600) && (Map2C > 1400)) { //if Map2C is neutral
+    H2.write(Map2A);
+    H3.write(Map2A);
+    H1.write(Map2B);
+    H4.write(Map2B);
   }
   
-  if (2CMap > 1600) {
-    Crab = map(2CMap, 1600, 1900, 0, 400);
-    if ((2AMap - Crab) > 1100){
-      H2.write(2AMap - Crab);
-      H3.write(2AMap - Crab);
+  if (Map2C > 1600) {
+    Crab = map(Map2C, 1600, 1900, 0, 400);
+    if ((Map2A - Crab) > 1100){
+      H2.write(Map2A - Crab);
+      H3.write(Map2A - Crab);
     }
     else {
-      H2.write(2AMap);
-      H3.write(2AMap);
+      H2.write(Map2A);
+      H3.write(Map2A);
     }
-    if ((2BMap + Crab) < 1900) {
-      H1.write(2BMap + Crab);
-      H4.write(2BMap + Crab);
+    if ((Map2B + Crab) < 1900) {
+      H1.write(Map2B + Crab);
+      H4.write(Map2B + Crab);
     }
     else {
-      H1.write(2BMap);
-      H4.write(2BMap);
+      H1.write(Map2B);
+      H4.write(Map2B);
     }
   }
     
-  if (2CMap < 1400) {
-    Crab = map(2CMap, 1400, 1100, 0, 400);
-    if ((2AMap - Crab) > 1100){
-      H2.write(2AMap - Crab);
-      H3.write(2AMap - Crab);
+  if (Map2C < 1400) {
+    Crab = map(Map2C, 1400, 1100, 0, 400);
+    if ((Map2A - Crab) > 1100){
+      H2.write(Map2A - Crab);
+      H3.write(Map2A - Crab);
     }
     else {
-      H2.write(2AMap);
-      H3.write(2AMap);
+      H2.write(Map2A);
+      H3.write(Map2A);
     }
-    if ((2BMap + Crab) < 1900) {
-      H1.write(2BMap + Crab);
-      H4.write(2BMap + Crab);
+    if ((Map2B + Crab) < 1900) {
+      H1.write(Map2B + Crab);
+      H4.write(Map2B + Crab);
     }
     else {
-      H1.write(2BMap);
-      H4.write(2BMap);
+      H1.write(Map2B);
+      H4.write(Map2B);
     }
   }
   
   
-  if ((1CMap < 1600) && (1CMap > 1400)) { //if 2CMap is neutral
-    V2.write(1AMap);
-    V3.write(1AMap);
-    V1.write(1BMap);
-    V4.write(1BMap);
+  if ((Map1C < 1600) && (Map1C > 1400)) { //if Map2C is neutral
+    V2.write(Map1A);
+    V3.write(Map1A);
+    V1.write(Map1B);
+    V4.write(Map1B);
   }
-  if (1CMap > 1600) {
-    Pitch = map(1CMap, 1600, 1900, 0, 400);
-    if ((2AMap + Pitch) < 1900){
-      H1.write(2AMap + Pitch);
-      H2.write(2AMap + Pitch);
+  if (Map1C > 1600) {
+    Pitch = map(Map1C, 1600, 1900, 0, 400);
+    if ((Map2A + Pitch) < 1900){
+      H1.write(Map2A + Pitch);
+      H2.write(Map2A + Pitch);
     }
     else {
-      H1.write(2AMap);
-      H2.write(2AMap);
+      H1.write(Map2A);
+      H2.write(Map2A);
     }
-    if ((2BMap - Pitch) > 1100) {
-      H3.write(2BMap - Pitch);
-      H4.write(2BMap - Pitch);
+    if ((Map2B - Pitch) > 1100) {
+      H3.write(Map2B - Pitch);
+      H4.write(Map2B - Pitch);
     }
     else {
-      H3.write(2BMap);
-      H4.write(2BMap);
+      H3.write(Map2B);
+      H4.write(Map2B);
     }
   }
     
-  if (2CMap < 1400) {
-    Pitch = map(2CMap, 1400, 1100, 0, 400);
-    if ((2AMap - Pitch) > 1100){
-      H1.write(2AMap - Pitch);
-      H2.write(2AMap - Pitch);
+  if (Map2C < 1400) {
+    Pitch = map(Map2C, 1400, 1100, 0, 400);
+    if ((Map2A - Pitch) > 1100){
+      H1.write(Map2A - Pitch);
+      H2.write(Map2A - Pitch);
     }
     else {
-      H1.write(2AMap);
-      H2.write(2AMap);
+      H1.write(Map2A);
+      H2.write(Map2A);
     }
-    if ((2BMap + Pitch) < 1900) {
-      H3.write(2BMap + Pitch);
-      H4.write(2BMap + Pitch);
+    if ((Map2B + Pitch) < 1900) {
+      H3.write(Map2B + Pitch);
+      H4.write(Map2B + Pitch);
     }
     else {
-      H3.write(2BMap);
-      H4.write(2BMap);
+      H3.write(Map2B);
+      H4.write(Map2B);
     }
   }
 }
- 
+
+
+void MapJoysticks() { // Maps joysticks for use with ESC
+  Map1A = map(Joystick1A, 0, 1023, 1100, 1900);
+  Map1B = map(Joystick1B, 0, 1023, 1100, 1900);
+  Map1C = map(Joystick1C, 0, 1023, 1100, 1900); 
+  Map2A = map(Joystick2A, 0, 1023, 1100, 1900);
+  Map2B = map(Joystick2B, 0, 1023, 1100, 1900);
+  Map2C = map(Joystick2C, 0, 1023, 1100, 1900);
+}
+
+
+void LEDs () {
+  
+}
+
