@@ -6,8 +6,8 @@
 
 /* Assign a unique ID to the sensors */
 Adafruit_9DOF                 dof   = Adafruit_9DOF();
-Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(30301);
-Adafruit_LSM303_Mag_Unified   mag   = Adafruit_LSM303_Mag_Unified(30302);
+/*Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(30301);
+Adafruit_LSM303_Mag_Unified   mag   = Adafruit_LSM303_Mag_Unified(30302);*/
 
 /**************************************************************************/
 /*!
@@ -30,11 +30,7 @@ void initSensors()
   }
 }
 
-/**************************************************************************/
-/*!
 
-*/
-/**************************************************************************/
 void setup(void)
 {
   Serial.begin(9600);

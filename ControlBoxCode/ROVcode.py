@@ -1,4 +1,4 @@
-#code for SeaSweepersROV GUI 'BRUCE' written by Brian Ishii. 2016
+
 # for python 3.x use 'tkinter' rather than 'Tkinter'
 import Tkinter as tk
 import time
@@ -7,10 +7,10 @@ from serial import *
 
 #Setting up Serial port
 #for raspberry pi use serialPort = "/dev/ttyACM0"
-serialPort = "/dev/cu.usbmodemFD121"
+#serialPort = "/dev/tty.usbmodem1411
 #serialPort = "/dev/cu.usbmodemFA131"
-baudRate = 115200
-ser = Serial(serialPort , baudRate, timeout=0, writeTimeout=0) #ensure non-blocking, code will not run if the port is not connected
+#baudRate = 115200
+#ser = Serial(serialPort , baudRate, timeout=0, writeTimeout=0) #ensure non-blocking, code will not run if the port is not connected
 
 #assigned variables
 dataList = [] #empty dataList for receiving data
