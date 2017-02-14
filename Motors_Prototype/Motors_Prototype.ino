@@ -29,6 +29,8 @@ int Joystick2B;
 int Joystick2C;
   int Map2C;
 
+int VertVar; //to store number for stabilization
+
 int Crab;
 int Pitch;
 
@@ -46,9 +48,17 @@ void setup() {
 
 void loop() {
 
-MotorWrite();
-LEDs();
+  MotorWrite();
+  DrivingLight();
+  FunLEDs();
 
+  if () { //ADD SWTICH
+    VertStabilization(); //stays completely flat (always on)
+  }
+  
+  if () { //ADD SWITCH
+    
+  }
 }
 
 
@@ -163,8 +173,17 @@ void MapJoysticks() { // Maps joysticks for use with ESC
   Map2C = map(Joystick2C, 0, 1023, 1100, 1900);
 }
 
+void DrivingLight () {
+  
+}
 
-void LEDs () {
+void FunLEDs () {
+  
+}
+
+void VertStabilization () {
+  
+
   
 }
 
