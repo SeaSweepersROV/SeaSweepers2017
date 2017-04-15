@@ -10,13 +10,13 @@
 int data [16];    // to send bytes
 int start [2];
 
-int Pin1A = A0;           
+int Pin1A = A2;           
 int Joystick1A;   // crab
 
 int Pin1B = A1;
 int Joystick1B;   // up down numbers are backwards
 
-int Pin1C = A2;
+int Pin1C = A0;
 int Joystick1C;   // pitch
 
 int Pin2A = A3;          
