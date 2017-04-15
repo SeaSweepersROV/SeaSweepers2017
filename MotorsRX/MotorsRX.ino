@@ -54,7 +54,7 @@ unsigned char checkit7;
 int VertVar; //to store number for stabilization
 
 int Crab;
-int Pitch;
+int Roll;
 
 void setup() {
 
@@ -73,7 +73,6 @@ void setup() {
 void loop() {
 
   Communication();
-  MapJoysticks();
   MotorWrite();
   DrivingLight();
   FunLEDs();
@@ -130,96 +129,96 @@ void MotorWrite() { // Writes joystick values to ESCs
   
   
     if ((Map2C < 1600) && (Map2C > 1400)) { //if Map2C is neutral
-    H2.write(Map2A);
-    H3.write(Map2A);
-    H1.write(Map2B);
-    H4.write(Map2B);
+    H2.write(Map2B);
+    H3.write(Map2B);
+    H1.write(Map2A);
+    H4.write(Map2A);
   }
   
   if (Map2C > 1600) {
     Crab = map(Map2C, 1600, 1900, 0, 400);
-    if ((Map2A - Crab) > 1100){
-      H2.write(Map2A - Crab);
-      H3.write(Map2A - Crab);
+    if ((Map2B - Crab) > 1100){
+      H2.write(Map2B - Crab);
+      H3.write(Map2B - Crab);
     }
     else {
-      H2.write(Map2A);
-      H3.write(Map2A);
+      H2.write(Map2B);
+      H3.write(Map2B);
     }
-    if ((Map2B + Crab) < 1900) {
-      H1.write(Map2B + Crab);
-      H4.write(Map2B + Crab);
+    if ((Map2A + Crab) < 1900) {
+      H1.write(Map2A + Crab);
+      H4.write(Map2A + Crab);
     }
     else {
-      H1.write(Map2B);
-      H4.write(Map2B);
+      H1.write(Map2A);
+      H4.write(Map2A);
     }
   }
     
   if (Map2C < 1400) {
     Crab = map(Map2C, 1400, 1100, 0, 400);
-    if ((Map2A - Crab) > 1100){
-      H2.write(Map2A - Crab);
-      H3.write(Map2A - Crab);
+    if ((Map2B - Crab) > 1100){
+      H2.write(Map2B - Crab);
+      H3.write(Map2B - Crab);
     }
     else {
-      H2.write(Map2A);
-      H3.write(Map2A);
+      H2.write(Map2B);
+      H3.write(Map2B);
     }
-    if ((Map2B + Crab) < 1900) {
-      H1.write(Map2B + Crab);
-      H4.write(Map2B + Crab);
+    if ((Map2A + Crab) < 1900) {
+      H1.write(Map2A + Crab);
+      H4.write(Map2A + Crab);
     }
     else {
-      H1.write(Map2B);
-      H4.write(Map2B);
+      H1.write(Map2A);
+      H4.write(Map2A);
     }
   }
   
   
-  if ((Map1C < 1600) && (Map1C > 1400)) { //if Map2C is neutral
+  if ((Map1C < 1600) && (Map1C > 1400)) { //if Map1C is neutral
+    V1.write(Map1A);
     V2.write(Map1A);
-    V3.write(Map1A);
-    V1.write(Map1B);
+    V3.write(Map1B);
     V4.write(Map1B);
   }
   if (Map1C > 1600) {
-    Pitch = map(Map1C, 1600, 1900, 0, 400);
-    if ((Map2A + Pitch) < 1900){
-      H1.write(Map2A + Pitch);
-      H2.write(Map2A + Pitch);
+    Roll = map(Map1C, 1600, 1900, 0, 400);
+    if ((Map2A + Roll) < 1900){
+      V1.write(Map1A + Roll);
+      V2.write(Map1A + Roll);
     }
     else {
-      H1.write(Map2A);
-      H2.write(Map2A);
+      V1.write(Map1A);
+      V2.write(Map1A);
     }
-    if ((Map2B - Pitch) > 1100) {
-      H3.write(Map2B - Pitch);
-      H4.write(Map2B - Pitch);
+    if ((Map1B - Roll) > 1100) {
+      V3.write(Map1B - Roll);
+      V4.write(Map1B - Roll);
     }
     else {
-      H3.write(Map2B);
-      H4.write(Map2B);
+      V3.write(Map1B);
+      V4.write(Map1B);
     }
   }
     
-  if (Map2C < 1400) {
-    Pitch = map(Map2C, 1400, 1100, 0, 400);
-    if ((Map2A - Pitch) > 1100){
-      H1.write(Map2A - Pitch);
-      H2.write(Map2A - Pitch);
+  if (Map1C < 1400) {
+    Roll = map(Map1C, 1400, 1100, 0, 400);
+    if ((Map1A - Roll) > 1100){
+      V1.write(Map1A - Roll);
+      V2.write(Map1A - Roll);
     }
     else {
-      H1.write(Map2A);
-      H2.write(Map2A);
+      V1.write(Map1A);
+      V2.write(Map1A);
     }
-    if ((Map2B + Pitch) < 1900) {
-      H3.write(Map2B + Pitch);
-      H4.write(Map2B + Pitch);
+    if ((Map1B + Roll) < 1900) {
+      V3.write(Map1B + Roll);
+      V4.write(Map1B + Roll);
     }
     else {
-      H3.write(Map2B);
-      H4.write(Map2B);
+      V3.write(Map1B);
+      V4.write(Map1B);
     }
   }
 }
