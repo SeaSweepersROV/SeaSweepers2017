@@ -60,14 +60,14 @@ void setup() {
 
   Serial1.begin(115200);
 
-  H1.attach(2); // left front
-  H2.attach(3); // right front
-  H3.attach(4); // right back
-  H4.attach(5); // left back
-  V1.attach(6);
-  V2.attach(7);
-  V3.attach(8);
-  V4.attach(9);
+  H1.attach(1); // left front
+  H2.attach(2); // right front
+  H3.attach(3); // right back
+  H4.attach(4); // left back
+  V1.attach(5);
+  V2.attach(6);
+  V3.attach(7);
+  V4.attach(8);
 }
 
 void loop() {
