@@ -44,8 +44,9 @@ unsigned char handshake5;
 unsigned char handshake6;
 
 void setup() {
-  Serial.begin(115200);
-  Serial1.begin(115200);
+  Serial.begin(74880);
+  Serial1.begin(74880);
+  delay(100);
 
 }
 
