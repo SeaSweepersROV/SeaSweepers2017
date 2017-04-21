@@ -53,7 +53,7 @@ void loop() {
   ReadandMap();
   Checksums();
   Communication();
-  delay(20);
+  delay(10);
 }
 
 void ReadandMap () {
@@ -93,7 +93,7 @@ void Checksums() {
 
 void Communication() {
   while (Serial1.available() < 3) {
-    ; //wait for request from receiver
+    Serial.println("No Communication"); //wait for request from receiver
   }
   
   handshake = Serial1.read();
@@ -101,6 +101,7 @@ void Communication() {
   handshake3 = Serial1.read();
 
   if ((handshake == 1) && (handshake2 == 2) && (handshake3 == 3)) {
+    Serial.println("Handshakes Equal");
     Serial1.write(1);
     Serial1.write(data[0]);
     Serial1.write(data[1]);
@@ -128,6 +129,9 @@ void Communication() {
 
     Serial1.write(2);
 
+  }
+  else {
+    Serial.println("Handshakes Not Equal");
   }
 }
 
