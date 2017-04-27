@@ -29,6 +29,10 @@ THE SOFTWARE.
 #include <Adafruit_LSM303_U.h>
 #include <Adafruit_Simple_AHRS.h>
 #include "DHT.h"
+#include <SoftwareSerial.h>
+
+SoftwareSerial BTserial(10, 11); // RX | TX
+char c = ' ';
 
 MS5837 sensor;
 
@@ -53,15 +57,8 @@ DHT dht(DHTPIN, DHTTYPE);
 void setup()
 {
   Serial.begin(9600);
-    Serial.print("Starting");
-      delay(500);
-    Serial.print(".");
-          delay(500);
-    Serial.print(".");   
-          delay(500);  
-     Serial.println(".");   
-           delay(500); 
-
+  BTserial.begin(38400); 
+  
   pinMode(SOSPIN, INPUT);    // sets the digital pin 3 as input
     dht.begin();
   
@@ -81,67 +78,73 @@ void loop()
 
      sensor.read();
 
-  Serial.print("Pressure: "); 
-  Serial.print(sensor.pressure()); 
-  Serial.println(" mbar");
-  
-  Serial.print("Water Temperature: "); 
-  Serial.print(sensor.temperature()); 
-  Serial.println(" deg C");
-  
-  Serial.print("Depth: "); 
-  Serial.print(sensor.depth()); 
-  Serial.println(" m");
+
+  Serial.println("pressure" + String(sensor.pressure()));
+
+
+
+  Serial.println("outTemp" + String(sensor.temperature())); 
+
+
+  max(sensor.depth(), 0);
+
+  Serial.println("depth" + String(sensor.depth())); 
+
+
+
   
   if (ahrs.getOrientation(&orientation))
   {
-            /* 'orientation' should have valid .roll and .pitch fields */
-    Serial.print(F("Orientation: "));
-    Serial.print(orientation.roll);
-    Serial.print(F(" "));
-    Serial.print(orientation.pitch);
-    Serial.print(F(" "));
-    Serial.print(orientation.heading);
-    Serial.println(F(""));
+
+    Serial.println("roll" + String(orientation.roll));
+
+
+    Serial.println("pitch" + String(orientation.pitch));
+
+
+    Serial.println("heading" + String(orientation.heading));
+
+
   }
 
 
-      int leakState = digitalRead(SOSPIN);   // read the input pin
+   int leakState = digitalRead(SOSPIN);   // read the input pin
       
   if (leakState == HIGH) {              // prints "LEAK!" if input pin is high
-    Serial.println("LEAK!");
+    Serial.println("leak1");
+
   }
   else if (leakState == LOW) {       // prints "Dry" if input pin is low
-    Serial.println("Dry");
+    Serial.println("leak0");
+
   }
 
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+
   float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
   float t = dht.readTemperature();
-  // Read temperature as Fahrenheit (isFahrenheit = true)
-  float f = dht.readTemperature(true);
 
   // Check if any reads failed and exit early (to try again).
-  if (isnan(h) || isnan(t) || isnan(f)) {
+  if (isnan(h) || isnan(t) ) {
     Serial.println("Failed to read from DHT sensor!");
     return;
   }
   
+     Serial.println("inTemp" + String(t));
 
-  
-     Serial.print("Temperature: ");
-     Serial.print(t);
-     Serial.print(" *C ");
-     Serial.print(f);
-     Serial.println(" *F\t");
-     Serial.print("Humidity: ");
-     Serial.print(h);
-     Serial.println("%");
-     
-    
-  
-  
-  delay(10000);
+
+     Serial.println("humidity" + String(h));
+
+
+     // Keep reading from HC-05 and send to Arduino Serial Monitor
+    if (BTserial.available())
+    {  
+        c = BTserial.read();
+        Serial.println("bluetooth" + String(c));
+    }
+    else{
+      Serial.println("bluetooth--");
+    }
+
+    //ADD VOLTAGE HERE
+    Serial.println("voltage--");
 }
