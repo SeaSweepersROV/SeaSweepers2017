@@ -77,8 +77,8 @@ int Roll;
 
 void setup() {
 
-  Serial.begin(74880);
-  Serial1.begin(74880);
+  Serial.begin(9600);
+  Serial1.begin(9600);
 
   H1.attach(H1Pin); // left front
   H1.writeMicroseconds(1500);
@@ -107,9 +107,9 @@ void loop() {
   Communication();
   SerialPrint();
   MotorWriteBasic(); //replace with MA later
-//  DrivingLight();
+  DrivingLight();
   FunLEDs();
-  delay(20);
+  delay(10);
 
   //  if () { //ADD SWTICH
   //    VertStabilization(); //stays completely flat (always on)

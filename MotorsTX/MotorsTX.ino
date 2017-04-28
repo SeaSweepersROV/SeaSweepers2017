@@ -51,8 +51,8 @@ unsigned char handshake5;
 unsigned char handshake6;
 
 void setup() {
-  Serial.begin(74880);
-  Serial1.begin(74880);
+  Serial.begin(9600);
+  Serial1.begin(9600);
 
   pinMode(BlueSwitch, INPUT);
   pinMode(WhiteSwitch, INPUT);
@@ -65,7 +65,7 @@ void loop() {
   Checksums();
   Switches();
   Communication();
-  delay(20);
+  delay(40);
 }
 
 void ReadandMap () {
