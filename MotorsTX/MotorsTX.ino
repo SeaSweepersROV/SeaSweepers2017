@@ -51,8 +51,8 @@ unsigned char handshake5;
 unsigned char handshake6;
 
 void setup() {
-  Serial.begin(9600);
-  Serial1.begin(9600);
+  Serial.begin(19200);
+  Serial1.begin(19200);
 
   pinMode(BlueSwitch, INPUT);
   pinMode(WhiteSwitch, INPUT);

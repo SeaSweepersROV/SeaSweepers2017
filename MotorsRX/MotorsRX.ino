@@ -77,8 +77,8 @@ int Roll;
 
 void setup() {
 
-  Serial.begin(9600);
-  Serial1.begin(9600);
+  Serial.begin(19200);
+  Serial1.begin(19200);
 
   H1.attach(H1Pin); // left front
   H1.writeMicroseconds(1500);
