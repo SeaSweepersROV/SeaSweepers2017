@@ -7,7 +7,7 @@
   Michael Georgariou 2017
 */
 
-int data [16];    // to send bytes
+int data [12];    // to send bytes
 int start [2];
 
 int Pin1A = A2;           
@@ -28,6 +28,13 @@ int Joystick2B;
 int Pin2C = A5;
 int Joystick2C;   // forward-back   fdsafdsaf
 
+int BlueSwitch = 22;
+int BlueVal;
+int BlueState;
+int WhiteSwitch = 24;
+int WhiteVal;
+int WhiteState;
+
 unsigned char checksum0;
 unsigned char checksum1;
 unsigned char checksum2;
@@ -46,6 +53,9 @@ unsigned char handshake6;
 void setup() {
   Serial.begin(74880);
   Serial1.begin(74880);
+
+  pinMode(BlueSwitch, INPUT);
+  pinMode(WhiteSwitch, INPUT);
   delay(100);
 
 }
@@ -53,8 +63,9 @@ void setup() {
 void loop() {
   ReadandMap();
   Checksums();
+  Switches();
   Communication();
-  delay(10);
+  delay(20);
 }
 
 void ReadandMap () {
@@ -92,6 +103,25 @@ void Checksums() {
   checksum5 = ~(data[10] + data[11]) + 1;
 }
 
+void Switches() {
+  WhiteState = digitalRead(WhiteSwitch);
+  BlueState = digitalRead(BlueSwitch);
+
+  if (BlueState == HIGH) {
+    BlueVal = 1;
+  }
+  if (BlueState == LOW) {
+    BlueVal = 0;
+  }
+
+  if (WhiteState == HIGH) {
+    WhiteVal = 1;
+  }
+  if (WhiteState == LOW) {
+    WhiteVal = 0;
+  }
+}
+
 void Communication() {
   while (Serial1.available() < 3) {
     Serial.println("No Communication"); //wait for request from receiver
@@ -127,6 +157,9 @@ void Communication() {
     Serial1.write(data[10]);
     Serial1.write(data[11]);
     Serial1.write(checksum5);
+
+    Serial1.write(WhiteVal);
+    Serial1.write(BlueVal);
 
     Serial1.write(2);
 

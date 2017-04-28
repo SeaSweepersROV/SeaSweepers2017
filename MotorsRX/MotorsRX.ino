@@ -6,8 +6,12 @@
   Michael Georgariou 2017
 */
 
+//valve 12
+//okay 13
+//accent light on 9
+
 #include <Servo.h>
-byte H1Pin = 6;
+byte H1Pin = 6; //connects all motors
 Servo H1;
 byte H2Pin = 3;
 Servo H2;
@@ -17,14 +21,21 @@ byte H4Pin = 7;
 Servo H4;
 byte V1Pin = 8;
 Servo V1;
-byte V2Pin = 1;
+byte V2Pin = 10;
 Servo V2;
 byte V3Pin = 4;
 Servo V3;
 byte V4Pin = 5;
 Servo V4;
 
-unsigned char val[16];
+#include <Adafruit_NeoPixel.h>
+Adafruit_NeoPixel Lights = Adafruit_NeoPixel(14, 11, NEO_GRBW + NEO_KHZ800); //connects LED
+
+
+unsigned char val[18];
+unsigned char BlueVal;
+unsigned char WhiteVal;
+
 int Joystick1A; //vertical
 int Map1A;
 int Joystick1B;
@@ -86,6 +97,8 @@ void setup() {
   V4.attach(V4Pin);
   V4.writeMicroseconds(1500);
 
+  Lights.begin(); //starts light
+
   delay(2000);
 }
 
@@ -93,10 +106,10 @@ void loop() {
 
   Communication();
   SerialPrint();
-  delay(10);
   MotorWriteBasic(); //replace with MA later
-  DrivingLight();
+//  DrivingLight();
   FunLEDs();
+  delay(20);
 
   //  if () { //ADD SWTICH
   //    VertStabilization(); //stays completely flat (always on)
@@ -108,8 +121,7 @@ void Communication() {
   Serial1.write(2);
   Serial1.write(3);
 
-  if (Serial1.available() > 19) {
-
+  if (Serial1.available()>22) {
     FirstByte = Serial1.read();
 
     if (FirstByte == 1) {
@@ -138,6 +150,9 @@ void Communication() {
       val[10] = Serial1.read();
       val[11] = Serial1.read();
       checksum5 = Serial1.read();
+      
+      WhiteVal = Serial1.read();
+      BlueVal = Serial1.read();
 
       LastByte = Serial1.read();
 
@@ -145,9 +160,9 @@ void Communication() {
     //See if Checksums equal zero
     CombineValues();
     MapJoysticks();
+
   }
 }
-
 void MotorWriteBasic() {
   H2.writeMicroseconds(Map2B);
   H3.writeMicroseconds(Map2B);
@@ -267,56 +282,59 @@ void CombineValues() {
   checkit4 = val[8] + val[9] + checksum4;
   checkit5 = val[10] + val[11] + checksum5;
   //check if they equal zero
-  if (checkit0 == 0)  {
-    Joystick1A = val[1] << 8 | val[0];
+  if (LastByte == 2) { 
+    if (checkit0 == 0)  {
+      Joystick1A = val[1] << 8 | val[0];
+    }
+    //  else {
+    //    Joystick1A = 512;
+    //  }
+    if (checkit1 == 0)  {
+      Joystick1B = val[3] << 8 | val[2];
+    }
+    //  else {
+    //    Joystick1B = 512;
+    //  }
+    if (checkit2 == 0)  {
+      Joystick1C = val[5] << 8 | val[4];
+    }
+    //  else {
+    //    Joystick1C = 512;
+    //  }
+    if (checkit3 == 0)  {
+      Joystick2A = val[7] << 8 | val[6];
+    }
+    //  else {
+    //    Joystick2A = 512;
+    //  }
+    if (checkit4 == 0)  {
+      Joystick2B = val[9] << 8 | val[8];
+    }
+    //  else {
+    //    Joystick2B = 512;
+    //  }
+    if (checkit5 == 0)  {
+      Joystick2C = val[11] << 8 | val[10];
+    }
+    //  else {
+    //    Joystick2C = 512;
+    //  }
   }
-  //  else {
-  //    Joystick1A = 512;
-  //  }
-  if (checkit1 == 0)  {
-    Joystick1B = val[3] << 8 | val[2];
-  }
-  //  else {
-  //    Joystick1B = 512;
-  //  }
-  if (checkit2 == 0)  {
-    Joystick1C = val[5] << 8 | val[4];
-  }
-  //  else {
-  //    Joystick1C = 512;
-  //  }
-  if (checkit3 == 0)  {
-    Joystick2A = val[7] << 8 | val[6];
-  }
-  //  else {
-  //    Joystick2A = 512;
-  //  }
-  if (checkit4 == 0)  {
-    Joystick2B = val[9] << 8 | val[8];
-  }
-  //  else {
-  //    Joystick2B = 512;
-  //  }
-  if (checkit5 == 0)  {
-    Joystick2C = val[11] << 8 | val[10];
-  }
-  //  else {
-  //    Joystick2C = 512;
-  //  }
 }
 
 void SerialPrint() {
-  Serial.print(Map1A);
-  Serial.print(" ");
-  Serial.print(Map1B);
-  Serial.print(" ");
-  Serial.print(Map1C);
-  Serial.print(" ");
-  Serial.print(Map2A);
-  Serial.print(" ");
+//  Serial.print(Map1A);
+//  Serial.print(" ");
+//  Serial.print(Map1B);
+//  Serial.print(" ");
+//  Serial.print(Map1C);
+//  Serial.print(" ");
+//  Serial.print(Map2A);
+//  Serial.print(" ");
   Serial.print(Map2B);
   Serial.print(" ");
-  Serial.println(Map2C);
+//  Serial.println(Map2C);
+Serial.println(BlueVal);
 }
 
 
@@ -331,7 +349,27 @@ void MapJoysticks() { // Maps joysticks for use with ESC
 }
 
 void DrivingLight() {
-
+  if ((BlueVal == 1) && (WhiteVal == 0)) {
+    for (int i=0;i<14;i++) {
+      Lights.setPixelColor(i, Lights.Color(0,0,255,0));
+    }
+  }
+  else if ((WhiteVal == 1) && (BlueVal == 0)) {
+    for (int i=0;i<14;i++) {
+      Lights.setPixelColor(i, Lights.Color(0,0,0,255));
+    }
+  }
+  else if ((WhiteVal == 1) && (BlueVal == 1)) { //both switches on or off? kill that mo-fo
+    for (int i=0;i<14;i++) {
+      Lights.setPixelColor(i, Lights.Color(255,0,0,0));
+    }
+  }
+  else if ((WhiteVal == 0) && (BlueVal == 0)) { //both switches on? kill that mo-fo
+    for (int i=0;i<14;i++) {
+      Lights.setPixelColor(i, Lights.Color(0,0,0,0));
+    }
+  }
+  Lights.show();
 }
 
 void FunLEDs() {
