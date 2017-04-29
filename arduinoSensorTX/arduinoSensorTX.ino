@@ -1,4 +1,4 @@
-/* Sensor ROV Code for the 2017 Season
+/* Sensor ROV TX Code for the 2017 Season
 -----------------------------------------------------
 
 The MIT License (MIT)
