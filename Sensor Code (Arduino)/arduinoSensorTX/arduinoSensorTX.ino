@@ -52,6 +52,9 @@ Adafruit_Simple_AHRS          ahrs(&accel, &mag);
 
 DHT dht(DHTPIN, DHTTYPE);
 
+//receive data 
+//print data
+
 void setup()
 {
   Serial.begin(9600);
@@ -70,64 +73,59 @@ void setup()
 
 void loop()
 {
-  sensors_vec_t   orientation;
+    recieveData();
+    printData();
+    delay(300);
+}
 
-  // Use the simple AHRS function to get the current orientation.
+void recieveData(){
+  
+      sensors_vec_t   orientation;
 
-     sensor.read();
+      sensor.read();
 
+      float pressure = sensor.pressure();
 
-  Serial.println("pressure" + String(sensor.pressure()));
+      float outTemp = sensor.temperature();
 
+      float depth = sensor.depth();
 
-  Serial.println("outTemp" + String(sensor.temperature())); 
-
-
-  max(sensor.depth(), 0);
-
-  Serial.println("depth" + String(sensor.depth()));
-
-
+      depth = max(sensor.depth(), 0);
 
   
   if (ahrs.getOrientation(&orientation))
   {
 
-    Serial.println("roll" + String(orientation.roll));
+    float roll = orientation.roll;
 
-    Serial.println("pitch" + String(orientation.pitch));
+    float pitch = orientation.pitch;
 
-    Serial.println("heading" + String(orientation.heading));
+    float heading = orientation.heading;
 
   }
 
 
    int leakState = digitalRead(SOSPIN);   // read the input pin
       
-  if (leakState == HIGH) {              // prints "LEAK!" if input pin is high
-    Serial.println("leak1");
-
+  if (leakState == HIGH) {              //  1 if input pin is high
+    float leak = 1;
   }
-  else if (leakState == LOW) {       // prints "Dry" if input pin is low
-    Serial.println("leak0");
-
+  
+  else if (leakState == LOW) {       //  0 if input pin is low
+    float leak = 0;
   }
 
       
   float h = dht.readHumidity();
   float t = dht.readTemperature();
 
-  // Check if any reads failed and exit early (to try again).
   if (isnan(h) || isnan(t) ) {
     Serial.println("Failed to read from DHT sensor!");
     return;
   }
-  
-     Serial.println("inTemp" + String(t));
+     float inTemp = t;
 
-
-     Serial.println("humidity" + String(h));
-
+     float humidity h;
 
      // Keep reading from HC-05 and send to Arduino Serial Monitor
     if (BTserial.available())
@@ -149,8 +147,10 @@ void loop()
     else
       Serial.println("voltage" + String(val));
 
-      
-     delay(300);
-      
+}
+
+void printData(){
+
+ 
 }
 
