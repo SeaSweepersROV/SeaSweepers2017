@@ -69,7 +69,7 @@ void loop() {
 }
 
 void ReadandMap () {
-  Joystick1A = analogRead(Pin1A);
+  Joystick1A = analogRead(Pin1A);   //reads joysticks and splits them into bytes
   data[0] = Joystick1A & 0xFF;
   data[1] = (Joystick1A >> 8);
   
@@ -95,7 +95,7 @@ void ReadandMap () {
 }
 
 void Checksums() {
-  checksum0 = ~(data[0] + data[1]) + 1;
+  checksum0 = ~(data[0] + data[1]) + 1;   //creates checksums for the RX code to check
   checksum1 = ~(data[2] + data[3]) + 1;
   checksum2 = ~(data[4] + data[5]) + 1;
   checksum3 = ~(data[6] + data[7]) + 1;
@@ -123,7 +123,7 @@ void Switches() {
 }
 
 void Communication() {
-  while (Serial1.available() < 3) {
+  while (Serial1.available() < 3) {   //wait to get a handshake
     Serial.println("No Communication"); //wait for request from receiver
   }
   
@@ -131,7 +131,7 @@ void Communication() {
   handshake2 = Serial1.read();
   handshake3 = Serial1.read();
 
-  if ((handshake == 1) && (handshake2 == 2) && (handshake3 == 3)) {
+  if ((handshake == 1) && (handshake2 == 2) && (handshake3 == 3)) {  //check that the handshakes are equal
     Serial.println("Handshakes Equal");
     Serial1.write(1);
     Serial1.write(data[0]);

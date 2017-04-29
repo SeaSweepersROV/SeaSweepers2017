@@ -32,13 +32,13 @@ Servo V4;
 Adafruit_NeoPixel Lights = Adafruit_NeoPixel(14, 11, NEO_GRBW + NEO_KHZ800); //connects LED
 
 
-unsigned char val[18];
+unsigned char val[18]; //creates variable to send over serial
 unsigned char BlueVal;
 unsigned char WhiteVal;
 
 int Joystick1A; //vertical
-int Map1A;
-int Map1ACR;
+int Map1A;      //map for servo
+int Map1ACR;    //map for counter-rotating props
 int Joystick1B;
 int Map1B;
 int Map1BCR;
@@ -55,7 +55,7 @@ int Joystick2C;
 int Map2C;
 int Map2CCR;
 
-unsigned char checksum0;
+unsigned char checksum0; //checkcums and failsafes
 unsigned char checksum1;
 unsigned char checksum2;
 unsigned char checksum3;
@@ -66,7 +66,7 @@ unsigned char checksum7;
 unsigned char FirstByte;
 unsigned char LastByte;
 
-unsigned char checkit0;
+unsigned char checkit0;   //variable to check checksums
 unsigned char checkit1;
 unsigned char checkit2;
 unsigned char checkit3;
@@ -78,12 +78,12 @@ unsigned char checkit7;
 
 int VertVar; //to store number for stabilization
 
-int Crab;
+int Crab;   // to add stabilization possibly in future
 int Roll;
 
 void setup() {
 
-  Serial.begin(19200);
+  Serial.begin(19200); //initialize Serial
   Serial1.begin(19200);
 
   H1.attach(H1Pin); // left front
@@ -123,11 +123,11 @@ void loop() {
 }
 
 void Communication() {
-  Serial1.write(1);
+  Serial1.write(1);   //send handshake
   Serial1.write(2);
   Serial1.write(3);
 
-  if (Serial1.available()>22) {
+  if (Serial1.available()>22) {   //check if serial communication is available
     FirstByte = Serial1.read();
 
     if (FirstByte == 1) {
@@ -171,7 +171,7 @@ void Communication() {
 }
 void MotorWriteBasic() {
 
-  H2.writeMicroseconds(Map2B);
+  H2.writeMicroseconds(Map2B);    //writes values to motors
   H3.writeMicroseconds(Map2B);
   H1.writeMicroseconds(Map2ACR);
   H4.writeMicroseconds(Map2ACR);
@@ -183,7 +183,7 @@ void MotorWriteBasic() {
 }
 
 
-void MotorWriteMA() { // Writes joystick values to ESCs (multiaxis)
+void MotorWriteMA() { // Writes joystick values to ESCs (multiaxis, not working correctly)
 
   if ((Map2C < 1600) && (Map2C > 1400)) { //if Map2C is neutral
     H2.write(Map2B);
@@ -293,39 +293,21 @@ void CombineValues() {
     if (checkit0 == 0)  {
       Joystick1A = val[1] << 8 | val[0];
     }
-    //  else {
-    //    Joystick1A = 512;
-    //  }
     if (checkit1 == 0)  {
       Joystick1B = val[3] << 8 | val[2];
     }
-    //  else {
-    //    Joystick1B = 512;
-    //  }
     if (checkit2 == 0)  {
       Joystick1C = val[5] << 8 | val[4];
     }
-    //  else {
-    //    Joystick1C = 512;
-    //  }
     if (checkit3 == 0)  {
       Joystick2A = val[7] << 8 | val[6];
     }
-    //  else {
-    //    Joystick2A = 512;
-    //  }
     if (checkit4 == 0)  {
       Joystick2B = val[9] << 8 | val[8];
     }
-    //  else {
-    //    Joystick2B = 512;
-    //  }
     if (checkit5 == 0)  {
       Joystick2C = val[11] << 8 | val[10];
     }
-    //  else {
-    //    Joystick2C = 512;
-    //  }
   }
 }
 
@@ -340,13 +322,15 @@ void SerialPrint() {
   Serial.print(" ");
   Serial.print(Map2B);
   Serial.print(" ");
-//  Serial.println(Map2C);
-Serial.println(BlueVal);
+//  Serial.print(Map2C);
+  Serial.print(BlueVal);
+//  Serial.print(WhiteVal);
+  Serial.println("");
 }
 
 
 void MapJoysticks() { // Maps joysticks for use with ESC
-  if (Joystick1A > 600) {
+  if (Joystick1A > 600) {                                   //creates deadzones of a range of 88
     Map1A = map(Joystick1A, 600, 1023, 1500, 1900);
     Map1ACR = map(Joystick1A, 600, 1023, 1500, 1100);
   }
@@ -426,22 +410,22 @@ void MapJoysticks() { // Maps joysticks for use with ESC
 }
 
 void DrivingLight() {
-  if ((BlueVal == 1) && (WhiteVal == 0)) {
+  if ((BlueVal == 1) && (WhiteVal == 0)) {              //blue switch on, make light blue
     for (int i=0;i<14;i++) {
       Lights.setPixelColor(i, Lights.Color(0,0,255,0));
     }
   }
-  else if ((WhiteVal == 1) && (BlueVal == 0)) {
+  else if ((WhiteVal == 1) && (BlueVal == 0)) {         //white switch on, make light white
     for (int i=0;i<14;i++) {
       Lights.setPixelColor(i, Lights.Color(0,0,0,255));
     }
   }
-  else if ((WhiteVal == 1) && (BlueVal == 1)) { //both switches on or off? kill that mo-fo
+  else if ((WhiteVal == 1) && (BlueVal == 1)) {         //both switches on? make it red baby
     for (int i=0;i<14;i++) {
       Lights.setPixelColor(i, Lights.Color(255,0,0,0));
     }
   }
-  else if ((WhiteVal == 0) && (BlueVal == 0)) { //both switches on? kill that mo-fo
+  else if ((WhiteVal == 0) && (BlueVal == 0)) {         //both switches off? kill that mo-fo
     for (int i=0;i<14;i++) {
       Lights.setPixelColor(i, Lights.Color(0,0,0,0));
     }
@@ -449,11 +433,11 @@ void DrivingLight() {
   Lights.show();
 }
 
-void FunLEDs() {
+void FunLEDs() {      //accent lights to add later
 
 }
 
-void VertStabilization() {
+void VertStabilization() {  //if we ever get around to stabilization it'll go here
 
 
 
