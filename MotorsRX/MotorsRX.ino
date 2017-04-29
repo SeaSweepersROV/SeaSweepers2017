@@ -38,16 +38,22 @@ unsigned char WhiteVal;
 
 int Joystick1A; //vertical
 int Map1A;
+int Map1ACR;
 int Joystick1B;
 int Map1B;
+int Map1BCR;
 int Joystick1C;
 int Map1C;
+int Map1CCR;
 int Joystick2A; //horizontal
 int Map2A;
+int Map2ACR;
 int Joystick2B;
 int Map2B;
+int Map2BCR;
 int Joystick2C;
 int Map2C;
+int Map2CCR;
 
 unsigned char checksum0;
 unsigned char checksum1;
@@ -164,14 +170,15 @@ void Communication() {
   }
 }
 void MotorWriteBasic() {
+
   H2.writeMicroseconds(Map2B);
   H3.writeMicroseconds(Map2B);
-  H1.writeMicroseconds(Map2A);
-  H4.writeMicroseconds(Map2A);
+  H1.writeMicroseconds(Map2ACR);
+  H4.writeMicroseconds(Map2ACR);
 
-  V1.writeMicroseconds(Map1A);
+  V1.writeMicroseconds(Map1ACR);
   V2.writeMicroseconds(Map1A);
-  V3.writeMicroseconds(Map1B);
+  V3.writeMicroseconds(Map1BCR);
   V4.writeMicroseconds(Map1B);
 }
 
@@ -329,8 +336,8 @@ void SerialPrint() {
 //  Serial.print(" ");
 //  Serial.print(Map1C);
 //  Serial.print(" ");
-//  Serial.print(Map2A);
-//  Serial.print(" ");
+  Serial.print(Map2A);
+  Serial.print(" ");
   Serial.print(Map2B);
   Serial.print(" ");
 //  Serial.println(Map2C);
@@ -339,13 +346,83 @@ Serial.println(BlueVal);
 
 
 void MapJoysticks() { // Maps joysticks for use with ESC
-  Map1A = map(Joystick1A, 0, 1023, 1100, 1900);
-  Map1B = map(Joystick1B, 0, 1023, 1100, 1900);
-  Map1C = map(Joystick1C, 0, 1023, 1100, 1900);
-  Map2A = map(Joystick2A, 0, 1023, 1100, 1900);
-  Map2B = map(Joystick2B, 0, 1023, 1100, 1900);
-  Map2C = map(Joystick2C, 0, 1023, 1100, 1900);
+  if (Joystick1A > 600) {
+    Map1A = map(Joystick1A, 600, 1023, 1500, 1900);
+    Map1ACR = map(Joystick1A, 600, 1023, 1500, 1100);
+  }
+  if (Joystick1A < 424) {
+    Map1A = map(Joystick1A, 0, 424, 1100, 1500);
+    Map1ACR = map(Joystick1A, 0, 424, 1900, 1500);
+  }
+  if ((Joystick1A > 424) && (Joystick1A < 600)) {
+    Map1A = 1500;
+    Map1ACR = 1500;
+  }
 
+  if (Joystick1B > 600) {
+    Map1B = map(Joystick1B, 600, 1023, 1500, 1900);
+    Map1BCR = map(Joystick1B, 600, 1023, 1500, 1100);
+  }
+  if (Joystick1B < 424) {
+    Map1B = map(Joystick1B, 0, 424, 1100, 1500);
+    Map1BCR = map(Joystick1B, 0, 424, 1900, 1500);
+  }
+  if ((Joystick1B > 424) && (Joystick1B < 600)) {
+    Map1B = 1500;
+    Map1BCR = 1500;
+  }
+
+  if (Joystick1C > 600) {
+    Map1C = map(Joystick1C, 600, 1023, 1500, 1900);
+    Map1CCR = map(Joystick1C, 600, 1023, 1500, 1100);
+  }
+  if (Joystick1C < 424) {
+    Map1C = map(Joystick1C, 0, 424, 1100, 1500);
+    Map1CCR = map(Joystick1C, 0, 424, 1900, 1500);
+  }
+  if ((Joystick1C > 424) && (Joystick1C < 600)) {
+    Map1C = 1500;
+    Map1CCR = 1500;
+  }  
+  
+  if (Joystick2A > 600) {
+    Map2A = map(Joystick2A, 600, 1023, 1500, 1900);
+    Map2ACR = map(Joystick2A, 600, 1023, 1500, 1100);
+  }
+  if (Joystick2A < 424) {
+    Map2A = map(Joystick2A, 0, 424, 1100, 1500);
+    Map2ACR = map(Joystick2A, 0, 424, 1900, 1500);
+  }
+  if ((Joystick2A > 424) && (Joystick2A < 600)) {
+    Map2A = 1500;
+    Map2ACR = 1500;
+  }
+
+  if (Joystick2B > 600) {
+    Map2B = map(Joystick2B, 600, 1023, 1500, 1900);
+    Map2BCR = map(Joystick2B, 600, 1023, 1500, 1100);
+  }
+  if (Joystick2B < 424) {
+    Map2B = map(Joystick2B, 0, 424, 1100, 1500);
+    Map2BCR = map(Joystick2B, 0, 424, 1900, 1500);
+  }
+  if ((Joystick2B > 424) && (Joystick2B < 600)) {
+    Map2B = 1500;
+    Map2BCR = 1500;
+  }
+
+  if (Joystick2C > 600) {
+    Map2C = map(Joystick2C, 600, 1023, 1500, 1900);
+    Map2CCR = map(Joystick2C, 600, 1023, 1500, 1100);
+  }
+  if (Joystick2C < 424) {
+    Map2C = map(Joystick2C, 0, 424, 1100, 1500);
+    Map2CCR = map(Joystick2C, 0, 424, 1900, 1500);
+  }
+  if ((Joystick2C > 424) && (Joystick2C < 600)) {
+    Map2C = 1500;
+    Map2CCR = 1500;
+  }
 }
 
 void DrivingLight() {
