@@ -1,3 +1,4 @@
+
 /*
   Transmitting Motor Code
   Takes numbers from joysticks and sends them through the Serial1 Port
@@ -35,6 +36,16 @@ int WhiteSwitch = 24;
 int WhiteVal;
 int WhiteState;
 
+int Valve1 = 26;
+int Valve1Val;
+int Valve1State;
+int Valve2 = 28;
+int Valve2Val;
+int Valve2State;
+int MagnetSwitch = 30;
+int MagnetVal;
+int MagnetState;
+
 unsigned char checksum0;
 unsigned char checksum1;
 unsigned char checksum2;
@@ -56,6 +67,8 @@ void setup() {
 
   pinMode(BlueSwitch, INPUT);
   pinMode(WhiteSwitch, INPUT);
+  pinMode(Valve1, INPUT);
+  pinMode(Valve2, INPUT);
   delay(100);
 
 }
@@ -120,6 +133,30 @@ void Switches() {
   if (WhiteState == LOW) {
     WhiteVal = 0;
   }
+
+  Valve1State = digitalRead(Valve1);
+  Valve2State = digitalRead(Valve2);
+
+  if (Valve1State == HIGH) {
+    Valve1Val = 1;
+  }
+  if (Valve1State == LOW) {
+    Valve1Val = 0;
+  }
+  if (Valve2State == HIGH) {
+    Valve2Val = 1;
+  }
+  if (Valve2State == LOW) {
+    Valve2Val = 0;
+  }
+
+  MagnetState = digitalRead(MagnetSwitch);
+  if (MagnetSwitch == HIGH) {
+    MagnetVal = 1;
+  }
+  if (MagnetSwitch == LOW) {
+    MagnetVal = 0;
+  }
 }
 
 void Communication() {
@@ -160,6 +197,11 @@ void Communication() {
 
     Serial1.write(WhiteVal);
     Serial1.write(BlueVal);
+
+    Serial1.write(Valve1Val);
+    Serial1.write(Valve2Val);
+
+    Serial1.write(MagnetVal);
 
     Serial1.write(2);
 
