@@ -35,9 +35,6 @@ Adafruit_NeoPixel Lights = Adafruit_NeoPixel(14, 11, NEO_GRBW + NEO_KHZ800); //c
 unsigned char val[18]; //creates variable to send over serial
 unsigned char BlueVal;
 unsigned char WhiteVal;
-unsigned char Valve1Val;
-unsigned char Valve2Val;
-unsigned char MagnetVal;
 
 int Joystick1A; //vertical
 int Map1A;      //map for servo
@@ -106,11 +103,6 @@ void setup() {
   V4.attach(V4Pin);
   V4.writeMicroseconds(1500);
 
-  pinMode(12, OUTPUT);
-  pinMode(13, OUTPUT); //extra motors
-  pinMode(52, OUTPUT);
-  pinMode(53, OUTPUT);
-
   Lights.begin(); //starts light
 
   delay(2000);
@@ -122,8 +114,6 @@ void loop() {
   SerialPrint();
   MotorWriteBasic(); //replace with MA later
   DrivingLight();
-  ValveTurner();
-  Magnet();
   FunLEDs();
   delay(10);
 
@@ -169,11 +159,6 @@ void Communication() {
       
       WhiteVal = Serial1.read();
       BlueVal = Serial1.read();
-
-      Valve1Val = Serial1.read();
-      Valve2Val = Serial1.read();
-      
-      MagnetVal = Serial1.read();
 
       LastByte = Serial1.read();
 
@@ -446,37 +431,6 @@ void DrivingLight() {
     }
   }
   Lights.show();
-}
-
-void ValveTurner() {
-  if (Valve1Val == 1) {
-    digitalWrite (52, HIGH); // 13 is other
-    delayMicroseconds(100);
-    analogWrite (12, 255);
-  }
-  if (Valve2Val == 1) {
-    digitalWrite (52, LOW); //53 is other
-    delayMicroseconds(100);
-    analogWrite(12, 255);
-  }
-  if ((Valve1Val == 0) && (Valve2Val == 0)) {
-    digitalWrite (52, LOW);
-    delayMicroseconds(100);
-    analogWrite (12, 0);
-  }
-}
-
-void Magnet() {
-  if (MagnetVal == 1) {
-    digitalWrite (53, LOW);
-    delayMicroseconds(100);
-    analogWrite (13, 255);
-  }
-  if (MagnetVal == 0) {
-    digitalWrite (53, LOW);
-    delayMicroseconds(100);
-    analogWrite(13, 0);
-  }
 }
 
 void FunLEDs() {      //accent lights to add later
