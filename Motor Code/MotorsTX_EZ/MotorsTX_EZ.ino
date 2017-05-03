@@ -22,7 +22,7 @@ struct SEND_DATA_STRUCTURE {
   int Valve1Val;
   int Valve2Val;
   int MagnetVal;
-}
+};
 
 SEND_DATA_STRUCTURE data;
 
@@ -63,7 +63,7 @@ void loop() {
   ReadandMap();
   Switches();
   ET.sendData();
-  delay(40);
+  delay(10);
 }
 
 void ReadandMap () {
@@ -94,8 +94,8 @@ void Switches() {
     data.WhiteVal = 0;
   }
 
-  Valve1State = digitalRead(Valve1);
-  Valve2State = digitalRead(Valve2);
+  Valve1State = digitalRead(Valve1Switch);
+  Valve2State = digitalRead(Valve2Switch);
 
   if (Valve1State == HIGH) {
     data.Valve1Val = 1;

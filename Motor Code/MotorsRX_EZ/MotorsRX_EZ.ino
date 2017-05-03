@@ -14,18 +14,18 @@
 EasyTransfer ET;
 
 struct RECEIVE_DATA_STRUCTURE {
-  int data.Joystick1A;
-  int data.Joystick1B;
-  int data.Joystick1C;
-  int data.Joystick2A;
-  int data.Joystick2B;
-  int data.Joystick2C;
+  int Joystick1A;
+  int Joystick1B;
+  int Joystick1C;
+  int Joystick2A;
+  int Joystick2B;
+  int Joystick2C;
   int WhiteVal;
   int BlueVal;
   int Valve1Val;
   int Valve2Val;
   int MagnetVal;
-}
+};
 
 RECEIVE_DATA_STRUCTURE data;
 
@@ -46,6 +46,12 @@ byte V3Pin = 4;
 Servo V3;
 byte V4Pin = 5;
 Servo V4;
+
+byte ValveDIR = 53;
+byte ValvePWM = 13;
+
+byte MagnetDIR = 52;
+byte MagnetPWM = 12;
 
 #include <Adafruit_NeoPixel.h>
 Adafruit_NeoPixel Lights = Adafruit_NeoPixel(14, 11, NEO_GRBW + NEO_KHZ800); //connects LED
@@ -93,10 +99,10 @@ void setup() {
   V4.attach(V4Pin);
   V4.writeMicroseconds(1500);
 
-  pinMode(12, OUTPUT);
-  pinMode(13, OUTPUT); //extra motors
-  pinMode(52, OUTPUT);
-  pinMode(53, OUTPUT);
+  pinMode(ValvePWM, OUTPUT);
+  pinMode(ValveDIR, OUTPUT); //extra motors
+  pinMode(MagnetPWM, OUTPUT);
+  pinMode(MagnetDIR, OUTPUT);
 
   Lights.begin(); //starts light
 
@@ -111,7 +117,7 @@ void loop() {
     MotorWriteBasic(); //replace with MA later
     DrivingLight();
     ValveTurner();
-    Magner();
+//    Magnet();
     FunLEDs();
   }
 
@@ -248,8 +254,10 @@ void SerialPrint() {
   Serial.print(Map2B);
   Serial.print(" ");
 //  Serial.print(Map2C);
-  Serial.print(data.BlueVal);
-//  Serial.print(data.WhiteVal);
+  Serial.print(data.Valve1Val);
+  Serial.print(data.Valve2Val);
+  Serial.print(" ");
+  Serial.print(data.MagnetVal);
   Serial.println("");
 }
 
@@ -359,33 +367,33 @@ void DrivingLight() {
 }
 
 void ValveTurner() {
-  if (data.Valve1Val == 1) {
-    digitalWrite (52, HIGH); // 13 is other
-    delayMicroseconds(100);
-    analogWrite (12, 255);
+//  if ((data.Valve1Val == 1) && (data.Valve2Val == 0)) {
+    digitalWrite (ValveDIR, LOW); // 13 is other
+    delayMicroseconds(100);                                   // no wires
+    analogWrite (ValvePWM, 255);
+//  }
+  if ((data.Valve2Val == 1) && (data.Valve1Val == 0)) {
+    digitalWrite (ValveDIR, HIGH); //53 is other
+    delayMicroseconds(100);                                   // with wires
+    analogWrite (ValvePWM, 255);
   }
-  if (data.Valve2Val == 1) {
-    digitalWrite (52, LOW); //53 is other
+  if ((data.Valve1Val == 0) && (data.Valve2Val == 0)) {
+    digitalWrite (ValveDIR, LOW);
     delayMicroseconds(100);
-    analogWrite(12, 255);
-  }
-  if ((Valve1Val == 0) && (Valve2Val == 0)) {
-    digitalWrite (52, LOW);
-    delayMicroseconds(100);
-    analogWrite (12, 0);
+    analogWrite (ValvePWM, 0);
   }
 }
 
 void Magnet() {
   if (data.MagnetVal == 1) {
-    digitalWrite (53, LOW);
+    digitalWrite (MagnetDIR, LOW);
     delayMicroseconds(100);
-    analogWrite (13, 255);
+    analogWrite (MagnetPWM, 255);
   }
   if (data.MagnetVal == 0) {
-    digitalWrite (53, LOW);
+    digitalWrite (MagnetDIR, LOW);
     delayMicroseconds(100);
-    analogWrite(13, 0);
+    analogWrite(MagnetPWM, 0);
   }
 }
 
