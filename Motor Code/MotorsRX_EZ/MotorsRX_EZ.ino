@@ -77,6 +77,7 @@ int Crab;   // to add stabilization possibly in future
 int Roll;
 
 void setup() {
+  delay(100);
 
   Serial.begin(19200); //initialize Serial
   Serial1.begin(19200);
