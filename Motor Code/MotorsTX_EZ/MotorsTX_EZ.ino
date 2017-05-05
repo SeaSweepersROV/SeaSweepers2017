@@ -41,8 +41,10 @@ int Valve1Switch = 26;
 int Valve1State;
 int Valve2Switch = 28;
 int Valve2State;
-int MagnetSwitch = 30;
+int MagnetSwitch = 32;
 int MagnetState;
+int SensSwitch = 30; // to adjust sensitivity to half (REPLACED MAGNETFOR NOW
+int SensState;
 
 
 void setup() {
@@ -55,6 +57,7 @@ void setup() {
   pinMode(Valve1Switch, INPUT);
   pinMode(Valve2Switch, INPUT);
   pinMode(MagnetSwitch, INPUT);
+  pinMode(SensSwitch, INPUT);
   
   delay(100);
 }
@@ -67,12 +70,23 @@ void loop() {
 }
 
 void ReadandMap () {
-  data.Joystick1A = analogRead(Pin1A);   //reads joysticks and splits them into bytes
-  data.Joystick1B = analogRead(Pin1B);
-  data.Joystick1C = analogRead(Pin1C);
-  data.Joystick2A = analogRead(Pin2A);
-  data.Joystick2B = analogRead(Pin2B);
-  data.Joystick2C = analogRead(Pin2C);
+  SensState = digitalRead(SensSwitch);
+  if (SensState == HIGH) {
+    data.Joystick1A = (((analogRead(Pin1A)) / 2) + 255); //if switch is on, half joystick values that are sent
+    data.Joystick1B = (((analogRead(Pin1B)) / 2) + 255);
+    data.Joystick1C = (((analogRead(Pin1C)) / 2) + 255);
+    data.Joystick2A = (((analogRead(Pin2A)) / 2) + 255);
+    data.Joystick2B = (((analogRead(Pin2B)) / 2) + 255);
+    data.Joystick2C = (((analogRead(Pin2C)) / 2) + 255);
+  }
+  if (SensState == LOW) {
+    data.Joystick1A = analogRead(Pin1A);   //reads joysticks and splits them into bytes
+    data.Joystick1B = analogRead(Pin1B);
+    data.Joystick1C = analogRead(Pin1C);
+    data.Joystick2A = analogRead(Pin2A);
+    data.Joystick2B = analogRead(Pin2B);
+    data.Joystick2C = analogRead(Pin2C);
+  }
 }
 
 
