@@ -133,9 +133,9 @@ void loop() {
 void MotorWriteBasic() {
 
   H2.writeMicroseconds(Map2B);    //writes values to motors
-//  H3.writeMicroseconds(Map2B);
+  H3.writeMicroseconds(Map2B);
   H1.writeMicroseconds(Map2ACR);
-//  H4.writeMicroseconds(Map2ACR);
+  H4.writeMicroseconds(Map2ACR);
 
   V1.writeMicroseconds(Map1ACR);
   V2.writeMicroseconds(Map1A);
@@ -244,100 +244,100 @@ void MotorWriteMA() { // Writes data.Joystick values to ESCs (multiaxis, not wor
 
 
 void SerialPrint() {
-//  Serial.print(Map1A);
-//  Serial.print(" ");
-//  Serial.print(Map1B);
-//  Serial.print(" ");
-//  Serial.print(Map1C);
-//  Serial.print(" ");
+  Serial.print(Map1A);
+  Serial.print(" ");
+  Serial.print(Map1B);
+  Serial.print(" ");
+  Serial.print(Map1C);
+  Serial.print(" ");
   Serial.print(Map2A);
   Serial.print(" ");
   Serial.print(Map2B);
   Serial.print(" ");
-//  Serial.print(Map2C);
-  Serial.print(data.Valve1Val);
-  Serial.print(data.Valve2Val);
-  Serial.print(" ");
-  Serial.print(data.MagnetVal);
+  Serial.print(Map2C);
+//  Serial.print(data.Valve1Val);
+//  Serial.print(data.Valve2Val);
+//  Serial.print(" ");
+//  Serial.print(data.MagnetVal);
   Serial.println("");
 }
 
 
 void MapJoysticks() { // Maps data.Joysticks for use with ESC
-  if (data.Joystick1A > 522) {                                   //creates deadzones of a range of 88
-    Map1A = map(data.Joystick1A, 522, 1023, 1500, 1900);
-    Map1ACR = map(data.Joystick1A, 522, 1023, 1500, 1100);
+  if (data.Joystick1A > 512) {                                   //creates deadzones (depending on joystick error range)
+    Map1A = map(data.Joystick1A, 512, 1023, 1500, 1900);
+    Map1ACR = map(data.Joystick1A, 512, 1023, 1500, 1100);
   }
-  if (data.Joystick1A < 502) {
-    Map1A = map(data.Joystick1A, 0, 502, 1100, 1500);
-    Map1ACR = map(data.Joystick1A, 0, 502, 1900, 1500);
+  if (data.Joystick1A < 493) {
+    Map1A = map(data.Joystick1A, 0, 493, 1100, 1500);
+    Map1ACR = map(data.Joystick1A, 0, 493, 1900, 1500);
   }
-  if ((data.Joystick1A > 502) && (data.Joystick1A < 522)) {
+  if ((data.Joystick1A > 493) && (data.Joystick1A < 512)) {
     Map1A = 1500;
     Map1ACR = 1500;
   }
 
-  if (data.Joystick1B > 522) {
-    Map1B = map(data.Joystick1B, 522, 1023, 1500, 1900);
-    Map1BCR = map(data.Joystick1B, 522, 1023, 1500, 1100);
+  if (data.Joystick1B > 527) {
+    Map1B = map(data.Joystick1B, 527, 1023, 1500, 1900);
+    Map1BCR = map(data.Joystick1B, 527, 1023, 1500, 1100);
   }
-  if (data.Joystick1B < 502) {
-    Map1B = map(data.Joystick1B, 0, 502, 1100, 1500);
-    Map1BCR = map(data.Joystick1B, 0, 502, 1900, 1500);
+  if (data.Joystick1B < 507) {
+    Map1B = map(data.Joystick1B, 0, 507, 1100, 1500);
+    Map1BCR = map(data.Joystick1B, 0, 507, 1900, 1500);
   }
-  if ((data.Joystick1B > 502) && (data.Joystick1B < 522)) {
+  if ((data.Joystick1B > 507) && (data.Joystick1B < 527)) {
     Map1B = 1500;
     Map1BCR = 1500;
   }
 
-  if (data.Joystick1C > 522) {
-    Map1C = map(data.Joystick1C, 522, 1023, 1500, 1900);
-    Map1CCR = map(data.Joystick1C, 522, 1023, 1500, 1100);
+  if (data.Joystick1C > 540) {
+    Map1C = map(data.Joystick1C, 540, 1023, 1500, 1900);
+    Map1CCR = map(data.Joystick1C, 540, 1023, 1500, 1100);
   }
-  if (data.Joystick1C < 502) {
-    Map1C = map(data.Joystick1C, 0, 502, 1100, 1500);
-    Map1CCR = map(data.Joystick1C, 0, 502, 1900, 1500);
+  if (data.Joystick1C < 490) {
+    Map1C = map(data.Joystick1C, 0, 490, 1100, 1500);
+    Map1CCR = map(data.Joystick1C, 0, 490, 1900, 1500);
   }
-  if ((data.Joystick1C > 502) && (data.Joystick1C < 522)) {
+  if ((data.Joystick1C > 490) && (data.Joystick1C < 540)) {
     Map1C = 1500;
     Map1CCR = 1500;
   }  
   
-  if (data.Joystick2A > 522) {
-    Map2A = map(data.Joystick2A, 522, 1023, 1500, 1900);
-    Map2ACR = map(data.Joystick2A, 522, 1023, 1500, 1100);
+  if (data.Joystick2A > 530) {
+    Map2A = map(data.Joystick2A, 530, 1023, 1500, 1900);
+    Map2ACR = map(data.Joystick2A, 530, 1023, 1500, 1100);
   }
-  if (data.Joystick2A < 502) {
-    Map2A = map(data.Joystick2A, 0, 502, 1100, 1500);
-    Map2ACR = map(data.Joystick2A, 0, 502, 1900, 1500);
+  if (data.Joystick2A < 516) {
+    Map2A = map(data.Joystick2A, 0, 516, 1100, 1500);
+    Map2ACR = map(data.Joystick2A, 0, 516, 1900, 1500);
   }
-  if ((data.Joystick2A > 502) && (data.Joystick2A < 522)) {
+  if ((data.Joystick2A > 516) && (data.Joystick2A < 530)) {
     Map2A = 1500;
     Map2ACR = 1500;
   }
 
-  if (data.Joystick2B > 522) {
-    Map2B = map(data.Joystick2B, 522, 1023, 1500, 1900);
-    Map2BCR = map(data.Joystick2B, 522, 1023, 1500, 1100);
+  if (data.Joystick2B > 545) {
+    Map2B = map(data.Joystick2B, 545, 1023, 1500, 1900);
+    Map2BCR = map(data.Joystick2B, 545, 1023, 1500, 1100);
   }
-  if (data.Joystick2B < 502) {
-    Map2B = map(data.Joystick2B, 0, 502, 1100, 1500);
-    Map2BCR = map(data.Joystick2B, 0, 502, 1900, 1500);
+  if (data.Joystick2B < 511) {
+    Map2B = map(data.Joystick2B, 0, 511, 1100, 1500);
+    Map2BCR = map(data.Joystick2B, 0, 511, 1900, 1500);
   }
-  if ((data.Joystick2B > 502) && (data.Joystick2B < 522)) {
+  if ((data.Joystick2B > 511) && (data.Joystick2B < 545)) {
     Map2B = 1500;
     Map2BCR = 1500;
   }
 
-  if (data.Joystick2C > 522) {
-    Map2C = map(data.Joystick2C, 522, 1023, 1500, 1900);
-    Map2CCR = map(data.Joystick2C, 522, 1023, 1500, 1100);
+  if (data.Joystick2C > 532) {
+    Map2C = map(data.Joystick2C, 532, 1023, 1500, 1900);
+    Map2CCR = map(data.Joystick2C, 532, 1023, 1500, 1100);
   }
-  if (data.Joystick2C < 502) {
-    Map2C = map(data.Joystick2C, 0, 502, 1100, 1500);
-    Map2CCR = map(data.Joystick2C, 0, 502, 1900, 1500);
+  if (data.Joystick2C < 485) {
+    Map2C = map(data.Joystick2C, 0, 485, 1100, 1500);
+    Map2CCR = map(data.Joystick2C, 0, 485, 1900, 1500);
   }
-  if ((data.Joystick2C > 502) && (data.Joystick2C < 522)) {
+  if ((data.Joystick2C > 485) && (data.Joystick2C < 532)) {
     Map2C = 1500;
     Map2CCR = 1500;
   }
