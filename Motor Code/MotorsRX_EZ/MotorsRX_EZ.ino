@@ -88,9 +88,9 @@ void setup() {
   H2.attach(H2Pin); // right front
   H2.writeMicroseconds(1500);
   H3.attach(H3Pin); // right back
-  H3.writeMicroseconds(1500);
+//  H3.writeMicroseconds(1500);
   H4.attach(H4Pin); // left back
-  H4.writeMicroseconds(1500);
+//  H4.writeMicroseconds(1500);
   V1.attach(V1Pin);
   V1.writeMicroseconds(1500);
   V2.attach(V2Pin);
@@ -133,9 +133,9 @@ void loop() {
 void MotorWriteBasic() {
 
   H2.writeMicroseconds(Map2B);    //writes values to motors
-  H3.writeMicroseconds(Map2B);
+//  H3.writeMicroseconds(Map2B);
   H1.writeMicroseconds(Map2ACR);
-  H4.writeMicroseconds(Map2ACR);
+//  H4.writeMicroseconds(Map2ACR);
 
   V1.writeMicroseconds(Map1ACR);
   V2.writeMicroseconds(Map1A);
