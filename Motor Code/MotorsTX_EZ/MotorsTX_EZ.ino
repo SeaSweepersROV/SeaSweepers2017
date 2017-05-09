@@ -64,6 +64,7 @@ void setup() {
 
 void loop() {
   ReadandMap();
+  Serial.println(data.Joystick1A);
   Switches();
   ET.sendData();
   delay(10);
@@ -72,20 +73,20 @@ void loop() {
 void ReadandMap () {
   SensState = digitalRead(SensSwitch);
   if (SensState == HIGH) {
-    data.Joystick1A = (((analogRead(Pin1A)) / 2) + 255); //if switch is on, half joystick values that are sent
-    data.Joystick1B = (((analogRead(Pin1B)) / 2) + 255);
-    data.Joystick1C = (((analogRead(Pin1C)) / 2) + 255);
-    data.Joystick2A = (((analogRead(Pin2A)) / 2) + 255);
-    data.Joystick2B = (((analogRead(Pin2B)) / 2) + 255);
-    data.Joystick2C = (((analogRead(Pin2C)) / 2) + 255);
+    data.Joystick1A = (((2*(analogRead(Pin1A))) / 5) + 308); //if switch is on, half joystick values that are sent
+    data.Joystick1B = (((2*(analogRead(Pin1B))) / 5) + 308);
+    data.Joystick1C = (((2*(analogRead(Pin1C))) / 5) + 308);
+    data.Joystick2A = (((2*(analogRead(Pin2A))) / 5) + 308);
+    data.Joystick2B = (((2*(analogRead(Pin2B))) / 5) + 308);
+    data.Joystick2C = (((2*(analogRead(Pin2C))) / 5) + 308);
   }
   if (SensState == LOW) {
-    data.Joystick1A = analogRead(Pin1A);   //reads joysticks and splits them into bytes
-    data.Joystick1B = analogRead(Pin1B);
-    data.Joystick1C = analogRead(Pin1C);
-    data.Joystick2A = analogRead(Pin2A);
-    data.Joystick2B = analogRead(Pin2B);
-    data.Joystick2C = analogRead(Pin2C);
+    data.Joystick1A = (((3*(analogRead(Pin1A))) / 4) + 128);   //reads joysticks and splits them into bytes
+    data.Joystick1B = (((3*(analogRead(Pin1B))) / 4) + 128);
+    data.Joystick1C = (((3*(analogRead(Pin1C))) / 4) + 128);
+    data.Joystick2A = (((3*(analogRead(Pin2A))) / 4) + 128);
+    data.Joystick2B = (((3*(analogRead(Pin2B))) / 4) + 128);
+    data.Joystick2C = (((3*(analogRead(Pin2C))) / 4) + 128);
   }
 }
 
