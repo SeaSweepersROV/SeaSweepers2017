@@ -133,9 +133,9 @@ void loop() {
 void MotorWriteBasic() {
 
   H2.writeMicroseconds(Map2B);    //writes values to motors
-  H3.writeMicroseconds(Map2B);
+//  H3.writeMicroseconds(Map2B);
   H1.writeMicroseconds(Map2ACR);
-  H4.writeMicroseconds(Map2ACR);
+//  H4.writeMicroseconds(Map2ACR);
 
   V1.writeMicroseconds(Map1ACR);
   V2.writeMicroseconds(Map1A);
@@ -268,11 +268,11 @@ void MapJoysticks() { // Maps data.Joysticks for use with ESC
     Map1A = map(data.Joystick1A, 512, 1023, 1500, 1900);
     Map1ACR = map(data.Joystick1A, 512, 1023, 1500, 1100);
   }
-  if (data.Joystick1A < 493) {
-    Map1A = map(data.Joystick1A, 0, 493, 1100, 1500);
-    Map1ACR = map(data.Joystick1A, 0, 493, 1900, 1500);
+  if (data.Joystick1A < 488) {
+    Map1A = map(data.Joystick1A, 0, 488, 1100, 1500);
+    Map1ACR = map(data.Joystick1A, 0, 488, 1900, 1500);
   }
-  if ((data.Joystick1A > 493) && (data.Joystick1A < 512)) {
+  if ((data.Joystick1A > 488) && (data.Joystick1A < 512)) {
     Map1A = 1500;
     Map1ACR = 1500;
   }
