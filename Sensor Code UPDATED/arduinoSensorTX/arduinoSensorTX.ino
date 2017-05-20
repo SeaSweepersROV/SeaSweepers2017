@@ -1,5 +1,6 @@
 /* Sensor ROV TX Code for the 2017 Season
 -----------------------------------------------------
+NEWW AND UPDATEDD
 
 The MIT License (MIT)
 
@@ -30,6 +31,10 @@ THE SOFTWARE.
 #include <Adafruit_Simple_AHRS.h>
 #include "DHT.h"
 #include <SoftwareSerial.h>
+#include <EasyTransfer.h>
+
+//create object
+EasyTransfer ET;
 
 SoftwareSerial BTserial(10, 11); // RX | TX
 char c = ' ';
@@ -52,68 +57,74 @@ Adafruit_Simple_AHRS          ahrs(&accel, &mag);
 
 DHT dht(DHTPIN, DHTTYPE);
 
+struct SEND_DATA_STRUCTURE{
+  //put your variable definitions here for the data you want to send
+  //THIS MUST BE EXACTLY THE SAME ON THE OTHER ARDUINO
 //Declare Variables
-  String leak;
-  String pressure;
-  String outTemp;
-  String depth;
-  String roll;
-  String pitch;
-  String heading;
-  String inTemp;
-  String humidity;
-  String bluetooth;
-  String voltage;
-  
+  float leak;
+  float pressure;
+  float outTemp;
+  float depth;
+  float roll;
+  float pitch;
+  float heading;
+  float inTemp;
+  float humidity;
+  float bluetooth;
+  float voltage;
+};
+
+//give a name to the group of data
+SEND_DATA_STRUCTURE txdata;
+
+    String str;
+    
 void setup()
 {
   Serial.begin(9600);
   Serial2.begin(19200);
   BTserial.begin(38400); 
   
-  pinMode(SOSPIN, INPUT);    // sets the digital pin 3 as input
+    pinMode(SOSPIN, INPUT);    // sets the digital pin 3 as input
     dht.begin();
   
   // Initialize the sensors.
-  accel.begin();
-  mag.begin();
-  sensor.init();
-  // Set liquid density
-  sensor.setFluidDensity(997); // kg/m^3 (997 freshwater, 1029 for seawater)
-  delay(1000);
-  
+    accel.begin();
+    mag.begin();
+    sensor.init();
+    sensor.setFluidDensity(997); // kg/m^3 (997 freshwater, 1029 for seawater)
+    ET.begin(details(txdata), &Serial2);
 }
 
 void loop()
 {
     receiveData();
-    printData();
+    delay(100);
 }
 
 void receiveData(){
   
  sensors_vec_t   orientation;
 
-  // Use the simple AHRS function to get the current orientation.
 
      sensor.read();
 
 
-  pressure = "pressure" + String(sensor.pressure());
+  txdata.pressure = sensor.pressure();
 
-  outTemp = "outTemp" + String(sensor.temperature()); 
+  txdata.outTemp = sensor.temperature(); 
 
-  depth = "depth" + String(sensor.depth());
+  txdata.depth = sensor.depth();
 
   
   if (ahrs.getOrientation(&orientation))
   {
 
-    roll = "roll" + String(orientation.roll);
+    txdata.roll = orientation.roll;
 
-    pitch = "pitch" + String(orientation.pitch);
+    txdata.pitch = orientation.pitch;
 
-    heading = "heading" + String(orientation.heading);
+    txdata.heading = orientation.heading;
 
   }
 
@@ -121,12 +132,11 @@ void receiveData(){
    int leakState = digitalRead(SOSPIN);   // read the input pin
       
   if (leakState == HIGH) {              // prints "LEAK!" if input pin is high
-    leak = "leak1";
+    txdata.leak = 1;
 
   }
   else if (leakState == LOW) {       // prints "Dry" if input pin is low
-    leak = "leak0";
-
+    txdata.leak = 0;
   }
 
       
@@ -139,20 +149,20 @@ void receiveData(){
     return;
   }
   
-     inTemp = "inTemp" + String(t);
+     txdata.inTemp = t;
 
 
-     humidity = "humidity" + String(h);
+     txdata.humidity = h;
 
 
      // Keep reading from HC-05 and send to Arduino Serial Monitor
     if (BTserial.available())
     {  
         c = BTserial.read();
-        bluetooth = "bluetooth" + String(c);
+        txdata.bluetooth = c;
     }
     else{
-      bluetooth = "bluetooth--";
+      txdata.bluetooth = 000;
     }
 
 
@@ -160,35 +170,12 @@ void receiveData(){
     val = analogRead(A0);
     val = map(val, 0, 822, 0, 48);
     if(isnan(val))
-      voltage = "voltagebaddata";
+      txdata.voltage = 000;
     else
-      voltage = "voltage" + String(val);
-}
-void printData(){
-  delay(300);
-  Serial2.println(leak + '\n');
-  delay(300);
-  Serial2.println(pressure + '\n');
-  delay(300);
-  Serial2.println(outTemp + '\n');
-  delay(300);
-  Serial2.println(depth + '\n');
-  delay(300);
-  Serial2.println(roll  + '\n');
-  delay(300);
-  Serial2.println(pitch  + '\n');
- delay(300);
-  Serial2.println(heading  + '\n');
-  delay(300);
-  Serial2.println(inTemp  + '\n');
-  delay(300);
-  Serial2.println(humidity  + '\n');
-  delay(300);
-  Serial2.println(bluetooth + '\n');
-  delay(200);
-  Serial2.println(voltage  + '\n');
+      txdata.voltage = val;
 
-  
+        ET.sendData();
 }
+
 
 
