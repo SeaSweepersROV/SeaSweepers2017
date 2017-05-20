@@ -12,4 +12,4 @@ For the 2017 season, we are going to experiment with vehicle stabilization as we
 
 We are proud of the work we have achieved, as this is the first year the Sea Sweepers have used any type of software on our vehicles before. This was a big leap for us and we've found it to be quite successful.
 
-Feel free to use this code to help yourself, and if you have any questions about the code feel free to contact either Michael Georgariou (michael@seasweepersrov.com) OR Marco Pizarro-Silva (marco@seasweepersrov.com), the Sea Sweepers' two software engineers for the 2017 MATE ROV season.😀Yaay!
+Feel free to use this code to help yourself, and if you have any questions about the code feel free to contact either Michael Georgariou (michael@seasweepersrov.com) OR Marco Pizarro-Silva (marco@seasweepersrov.com), the Sea Sweepers' two software engineers for the 2017 MATE ROV season.😀Yaay! boo hssh
