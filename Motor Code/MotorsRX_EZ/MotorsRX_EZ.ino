@@ -88,9 +88,9 @@ void setup() {
   H2.attach(H2Pin); // right front
   H2.writeMicroseconds(1500);
   H3.attach(H3Pin); // right back
-//  H3.writeMicroseconds(1500);
+  H3.writeMicroseconds(1500);
   H4.attach(H4Pin); // left back
-//  H4.writeMicroseconds(1500);
+  H4.writeMicroseconds(1500);
   V1.attach(V1Pin);
   V1.writeMicroseconds(1500);
   V2.attach(V2Pin);
@@ -118,7 +118,7 @@ void loop() {
     MotorWriteBasic(); //replace with MA later
     DrivingLight();
     ValveTurner();
-//    Magnet();
+    Magnet();
     FunLEDs();
   }
 
@@ -133,9 +133,9 @@ void loop() {
 void MotorWriteBasic() {
 
   H2.writeMicroseconds(Map2B);    //writes values to motors
-//  H3.writeMicroseconds(Map2B);
+  H3.writeMicroseconds(Map2B);
   H1.writeMicroseconds(Map2ACR);
-//  H4.writeMicroseconds(Map2ACR);
+  H4.writeMicroseconds(Map2ACR);
 
   V1.writeMicroseconds(Map1ACR);
   V2.writeMicroseconds(Map1A);
@@ -244,20 +244,20 @@ void MotorWriteMA() { // Writes data.Joystick values to ESCs (multiaxis, not wor
 
 
 void SerialPrint() {
-  Serial.print(Map1A);
-  Serial.print(" ");
-  Serial.print(Map1B);
-  Serial.print(" ");
-  Serial.print(Map1C);
-  Serial.print(" ");
-  Serial.print(Map2A);
-  Serial.print(" ");
-  Serial.print(Map2B);
-  Serial.print(" ");
-  Serial.print(Map2C);
-//  Serial.print(data.Valve1Val);
-//  Serial.print(data.Valve2Val);
+//  Serial.print(Map1A);
 //  Serial.print(" ");
+//  Serial.print(Map1B);
+//  Serial.print(" ");
+//  Serial.print(Map1C);
+//  Serial.print(" ");
+//  Serial.print(Map2A);
+//  Serial.print(" ");
+//  Serial.print(Map2B);
+//  Serial.print(" ");
+//  Serial.print(Map2C);
+  Serial.print(data.Valve1Val);
+  Serial.print(data.Valve2Val);
+  Serial.print(" ");
 //  Serial.print(data.MagnetVal);
   Serial.println("");
 }
@@ -368,11 +368,11 @@ void DrivingLight() {
 }
 
 void ValveTurner() {
-//  if ((data.Valve1Val == 1) && (data.Valve2Val == 0)) {
+  if ((data.Valve1Val == 1) && (data.Valve2Val == 0)) {
     digitalWrite (ValveDIR, LOW); // 13 is other
     delayMicroseconds(100);                                   // no wires
     analogWrite (ValvePWM, 255);
-//  }
+  }
   if ((data.Valve2Val == 1) && (data.Valve1Val == 0)) {
     digitalWrite (ValveDIR, HIGH); //53 is other
     delayMicroseconds(100);                                   // with wires
