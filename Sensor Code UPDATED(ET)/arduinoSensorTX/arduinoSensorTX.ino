@@ -162,7 +162,7 @@ void receiveData(){
         txdata.bluetooth = c;
     }
     else{
-      txdata.bluetooth = 000;
+      txdata.bluetooth = 0000000;
     }
 
 
