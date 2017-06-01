@@ -2,8 +2,8 @@
 
 /* Sensor ROV RX Code for the 2017 Season
 -----------------------------------------------------
+Receiving sensor info using EasyTransfer library.
 
-NEWW AND UPDATEDD
 The MIT License (MIT)
 
 Copyright (c) Sea Sweepers ROV
@@ -26,6 +26,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -------------------------------*/
+
+
 #include <EasyTransfer.h>
 
 //create object

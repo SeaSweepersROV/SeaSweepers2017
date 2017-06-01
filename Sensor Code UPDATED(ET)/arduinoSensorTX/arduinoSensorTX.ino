@@ -1,6 +1,6 @@
 /* Sensor ROV TX Code for the 2017 Season
 -----------------------------------------------------
-NEWW AND UPDATEDD
+Transmitting sensor info using EasyTransfer library.
 
 The MIT License (MIT)
 
