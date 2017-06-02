@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <EasyTransfer.h>
 
 //create object
-EasyTransfer ET; 
+EasyTransfer ET;
 
 
 
