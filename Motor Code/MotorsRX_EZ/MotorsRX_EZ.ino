@@ -32,12 +32,20 @@ RECEIVE_DATA_STRUCTURE data;
 #include <Servo.h>
 byte H1Pin = 6; //connects all motors
 Servo H1;
+int H1Val;
+
 byte H2Pin = 3;
 Servo H2;
+int H2Val;
+
 byte H3Pin = 2;
 Servo H3;
+int H3Val;
+
 byte H4Pin = 7;
 Servo H4;
+int H4Val; 
+
 byte V1Pin = 8;
 Servo V1;
 byte V2Pin = 10;
@@ -74,7 +82,9 @@ int Map2CCR;
 int VertVar; //to store number for stabilization
 
 int Crab;   // to add stabilization possibly in future
+int CrabCR;
 int Roll;
+int RollCR;
 
 void setup() {
   delay(100);
@@ -115,7 +125,8 @@ void loop() {
   if (ET.receiveData()) {
     MapJoysticks();
     SerialPrint();
-    MotorWriteBasic(); //replace with MA later
+    MotorLogic(); //replace with MA later
+    MotorWrite();
     DrivingLight();
     ValveTurner();
     Magnet();
@@ -144,121 +155,130 @@ void MotorWriteBasic() {
 }
 
 
-void MotorWriteMA() { // Writes data.Joystick values to ESCs (multiaxis, not working correctly)
+void MotorLogic() { // Writes data.Joystick values to ESCs (multiaxis, not working correctly)
 
   if ((Map2C < 1600) && (Map2C > 1400)) { //if Map2C is neutral
-    H2.write(Map2B);
-    H3.write(Map2B);
-    H1.write(Map2A);
-    H4.write(Map2A);
+    H2Val = (Map2B);
+    H3Val = (Map2B);
+    H1Val = (Map2ACR);
+    H4Val = (Map2ACR);
   }
 
   if (Map2C > 1600) {
     Crab = map(Map2C, 1600, 1900, 0, 400);
-    if ((Map2B - Crab) > 1100) {
-      H2.write(Map2B - Crab);
-      H3.write(Map2B - Crab);
+    CrabCR = map(Map2CCR, 1400, 1100, 0, 400);
+    if ((Map2B + Crab) < 1900) {
+      H1Val = (Map2ACR - Crab);
+      H3Val = (Map2B + Crab);
     }
-    if ((Map2B - Crab) < 1100) {
-      H2.write(Map2B);
-      H3.write(Map2B);
+    if ((Map2B - Crab) > 1900) {
+      H1Val = (Map2ACR);
+      H3Val = (Map2B);
     }
-    if ((Map2A + Crab) < 1900) {
-      H1.write(Map2A + Crab);
-      H4.write(Map2A + Crab);
+    if ((Map2ACR - CrabCR) > 1100) { //maybe change to plus
+      H2Val = (Map2B - CrabCR);
+      H4Val = (Map2ACR + CrabCR);
     }
-    if ((Map2A + Crab) > 1900) {
-      H1.write(Map2A);
-      H4.write(Map2A);
+    if ((Map2A + Crab) < 1100) {
+      H2Val = (Map2B);
+      H4Val = (Map2ACR);
     }
   }
 
   if (Map2C < 1400) {
     Crab = map(Map2C, 1400, 1100, 0, 400);
-    if ((Map2B - Crab) > 1100) {
-      H2.write(Map2B - Crab);
-      H3.write(Map2B - Crab);
+    CrabCR = map(Map2CCR, 1600, 1900, 0, 400);
+    if ((Map2B + Crab) < 1900) {
+      H1Val = (Map2ACR + Crab);
+      H3Val = (Map2B - Crab);
     }
-    if ((Map2B - Crab) < 1100) {
-      H2.write(Map2B);
-      H3.write(Map2B);
+    if ((Map2B - Crab) > 1900) {
+      H1Val = (Map2ACR);
+      H3Val = (Map2B);
     }
-    if ((Map2A + Crab) < 1900) {
-      H1.write(Map2A + Crab);
-      H4.write(Map2A + Crab);
+    if ((Map2ACR - CrabCR) > 1100) { //maybe change to plus
+      H2Val = (Map2B + CrabCR);
+      H4Val = (Map2ACR - CrabCR);
     }
-    if ((Map2A + Crab) > 1900) {
-      H1.write(Map2A);
-      H4.write(Map2A);
+    if ((Map2A + Crab) < 1100) {
+      H2Val = (Map2B);
+      H4Val = (Map2ACR);
     }
   }
 
 
   if ((Map1C < 1600) && (Map1C > 1400)) { //if Map1C is neutral
-    V1.write(Map1A);
-    V2.write(Map1A);
-    V3.write(Map1B);
-    V4.write(Map1B);
+    V1.writeMicroseconds(Map1ACR);
+    V2.writeMicroseconds(Map1A);
+    V3.writeMicroseconds(Map1BCR);
+    V4.writeMicroseconds(Map1B);
+  }
+  if (Map1C < 1400) {
+    Roll = map(Map1C, 1400, 1100, 0, 400);
+    if ((Map2A + Roll) < 1900) {
+      V1.writeMicroseconds(Map1ACR + Roll);
+      V2.writeMicroseconds(Map1A + Roll);
+    }
+    if ((Map2A + Roll) > 1900) {
+      V1.writeMicroseconds(Map1ACR);
+      V2.writeMicroseconds(Map1A);
+    }
+    if ((Map1B - Roll) > 1100) {
+      V3.writeMicroseconds(Map1BCR - Roll);
+      V4.writeMicroseconds(Map1B - Roll);
+    }
+    if ((Map1B - Roll) < 1100) {
+      V3.writeMicroseconds(Map1BCR);
+      V4.writeMicroseconds(Map1B);
+    }
   }
   if (Map1C > 1600) {
     Roll = map(Map1C, 1600, 1900, 0, 400);
-    if ((Map2A + Roll) < 1900) {
-      V1.write(Map1A + Roll);
-      V2.write(Map1A + Roll);
-    }
-    if ((Map2A + Roll) > 1900) {
-      V1.write(Map1A);
-      V2.write(Map1A);
-    }
-    if ((Map1B - Roll) > 1100) {
-      V3.write(Map1B - Roll);
-      V4.write(Map1B - Roll);
-    }
-    if ((Map1B - Roll) < 1100) {
-      V3.write(Map1B);
-      V4.write(Map1B);
-    }
-  }
-
-  if (Map1C < 1400) {
-    Roll = map(Map1C, 1400, 1100, 0, 400);
     if ((Map1A - Roll) > 1100) {
-      V1.write(Map1A - Roll);
-      V2.write(Map1A - Roll);
+      V1.writeMicroseconds(Map1ACR - Roll);
+      V2.writeMicroseconds(Map1A - Roll);
     }
     if ((Map1A - Roll) < 1100) {
-      V1.write(Map1A);
-      V2.write(Map1A);
+      V1.writeMicroseconds(Map1ACR);
+      V2.writeMicroseconds(Map1A);
     }
     if ((Map1B + Roll) < 1900) {
-      V3.write(Map1B + Roll);
-      V4.write(Map1B + Roll);
+      V3.writeMicroseconds(Map1BCR + Roll);
+      V4.writeMicroseconds(Map1B + Roll);
     }
     if ((Map1B + Roll) > 1900) {
-      V3.write(Map1B);
-      V4.write(Map1B);
+      V3.writeMicroseconds(Map1BCR);
+      V4.writeMicroseconds(Map1B);
     }
   }
 }
 
 
+void MotorWrite () {
+  H1.writeMicroseconds(H1Val);
+  H2.writeMicroseconds(H2Val);
+  H3.writeMicroseconds(H3Val);
+  H4.writeMicroseconds(H4Val);
+}
+
+
 
 void SerialPrint() {
-//  Serial.print(Map1A);
+//  Serial.print(H1Val);
 //  Serial.print(" ");
-//  Serial.print(Map1B);
+//  Serial.print(H2Val);
 //  Serial.print(" ");
-//  Serial.print(Map1C);
+//  Serial.print(H3Val);
 //  Serial.print(" ");
-//  Serial.print(Map2A);
+//  Serial.print(H4Val);
 //  Serial.print(" ");
-//  Serial.print(Map2B);
+////  Serial.print(Map2B);
 //  Serial.print(" ");
 //  Serial.print(Map2C);
   Serial.print(data.Valve1Val);
   Serial.print(data.Valve2Val);
   Serial.print(" ");
-//  Serial.print(data.MagnetVal);
+  Serial.print(data.MagnetVal);
   Serial.println("");
 }
 
