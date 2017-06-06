@@ -126,10 +126,10 @@ void Switches() {
   }
 
   MagnetState = digitalRead(MagnetSwitch);
-  if (MagnetSwitch == HIGH) {
+  if (MagnetState == HIGH) {
     data.MagnetVal = 1;
   }
-  if (MagnetSwitch == LOW) {
+  if (MagnetState == LOW) {
     data.MagnetVal = 0;
   }
 }
