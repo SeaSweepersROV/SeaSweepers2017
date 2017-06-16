@@ -64,8 +64,8 @@ void setup() {
 
 void loop() {
   ReadandMap();
-  Serial.println(data.Joystick1A);
   Switches();
+  Serial.println(data.MagnetVal);
   ET.sendData();
   delay(10);
 }
@@ -126,10 +126,10 @@ void Switches() {
   }
 
   MagnetState = digitalRead(MagnetSwitch);
-  if (MagnetSwitch == HIGH) {
+  if (MagnetState == HIGH) {
     data.MagnetVal = 1;
   }
-  if (MagnetSwitch == LOW) {
+  if (MagnetState == LOW) {
     data.MagnetVal = 0;
   }
 }
