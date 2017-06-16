@@ -48,20 +48,24 @@ struct RECEIVE_DATA_STRUCTURE{
   float heading;
   float inTemp;
   float humidity;
-  float bluetooth;
+   long longBT1;
+   long longBT2;
+   long longBT3;
   float voltage;
 };
 
 //give a name to the group of data
 RECEIVE_DATA_STRUCTURE rxdata;
 
-  
+String fullBT = "";
+String fullBTString = "";
+String stringPartToConvert;
 
 void setup()
 {
   Serial.begin(9600);
   Serial2.begin(19200);
-  ET.begin(details(rxdata), &Serial2);  
+  ET.begin(details(rxdata), &Serial2);
 }
 
 void loop()
@@ -75,10 +79,10 @@ void receiveData(){
   if(ET.receiveData()){
         printData();
     }
-
 }
 
 void printData(){
+
 
   Serial.println("----");  
 
@@ -100,7 +104,19 @@ void printData(){
 
    Serial.println( "humidity" + String(rxdata.humidity));
 
- Serial.println( "bluetooth" + String(rxdata.bluetooth));
+    fullBT += String(rxdata.longBT1);
+    fullBT += String(rxdata.longBT2);
+    fullBT += String(rxdata.longBT3);
+   Serial.print("bluetooth");
+   for(int i = 0; i <= 18; i++){
+          stringPartToConvert += fullBT[i];
+          if (i % 2 == 0){
+            Serial.write(stringPartToConvert.toInt());
+            stringPartToConvert = "";
+          }
+   }
+      fullBT = "";
+    Serial.println("");
 
     Serial.println( "voltage" + String(rxdata.voltage));
 }

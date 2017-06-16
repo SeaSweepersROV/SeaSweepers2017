@@ -39,6 +39,7 @@ THE SOFTWARE.
 EasyTransfer ET;
 
 SoftwareSerial BTserial(10, 11); // RX | TX
+
 char c = ' ';
 
 MS5837 sensor;
@@ -72,10 +73,12 @@ struct SEND_DATA_STRUCTURE{
   float heading;
   float inTemp;
   float humidity;
-  float bluetooth;
+   long longBT1;
+   long longBT2;
+   long longBT3;
   float voltage;
 };
-
+    String cc;
 //give a name to the group of data
 SEND_DATA_STRUCTURE txdata;
 
@@ -83,9 +86,10 @@ SEND_DATA_STRUCTURE txdata;
     
 void setup()
 {
+
   Serial.begin(9600);
   Serial2.begin(19200);
-  BTserial.begin(38400); 
+  BTserial.begin(9600); 
   
     pinMode(SOSPIN, INPUT);    // sets the digital pin 3 as input
     dht.begin();
@@ -101,11 +105,12 @@ void setup()
 void loop()
 {
     receiveData();
-    delay(100);
+    delay(50);
 }
 
 void receiveData(){
-  
+          
+  //Serial.print("Hello");
  sensors_vec_t   orientation;
 
 
@@ -157,16 +162,116 @@ void receiveData(){
      txdata.humidity = h;
 
 
-     // Keep reading from HC-05 and send to Arduino Serial Monitor
+  //    Keep reading from HC-05 and send to Arduino Serial Monitor
+    String BT1;
+    String BT2;
+    String BT3;
+    int BTcount = 0;
+    String newStr = "";
+    bool found = false;
+    
+    BTserial.begin(9600);
     if (BTserial.available())
     {  
-        c = BTserial.read();
-        txdata.bluetooth = c;
-    }
-    else{
-      txdata.bluetooth = 0000000;
-    }
+      if(cc.length() >= 10){
+          cc = "";
+      }
+        while(true){
+         c = BTserial.read();
+         if(c == '\n' || int(c) <= -1){
+            break;
+         }
+         else
+              cc += String(c);
 
+            Serial.println(c);
+            delay(0);
+
+            Serial.println(cc);
+            
+        }
+
+        BTserial.end();
+        delay(79);
+        Serial.println("exit");
+
+
+//        c = BTserial.read();
+//        
+//        if( c == '\n'){
+//        String f = BTserial.readStringUntil('\n');
+//        Serial.println(f);
+//        }
+//        BTserial.end();
+
+    //    cc = String(c);
+        Serial.print("Cc: ");
+        Serial.println(cc);
+        
+        for (int i = 0; i <= 10; i++)
+        {
+            newStr = newStr + int(cc[i]);
+            Serial.print("ASCII: ");
+            Serial.print(int(cc[i]));
+            if(BTcount <= 2)
+                BT1 = BT1 + int(cc[i]);
+                
+            if(BTcount >= 3 && BTcount <= 5)
+                BT2 = BT2 + int(cc[i]);
+    
+            if(BTcount >= 6 && BTcount <= 8)
+                BT3 = BT3 + int(cc[i]);
+            BTcount += 1;
+         }
+         
+            Serial.print(" String BT1: ");
+            Serial.print(BT1);
+            const char charBuf1[50];
+            BT1.toCharArray(charBuf1, 50);
+            
+            Serial.print("Char buff1: ");
+            Serial.print(charBuf1);
+            txdata.longBT1 = atol(charBuf1);
+            
+            Serial.print(" longBT1: ");
+            Serial.print(txdata.longBT1);
+        
+        
+        //
+        
+             Serial.print(" String BT2: ");
+            Serial.print(BT2);
+            const char charBuf2[50];
+            BT2.toCharArray(charBuf2, 50) ;
+            
+            Serial.print("Char buff2: ");
+            Serial.print(charBuf2);
+            txdata.longBT2 = atol(charBuf2);
+            
+            Serial.print(" longBT2: ");
+            Serial.print(txdata.longBT2);
+        
+        
+        //
+        
+            Serial.print(" String BT3: ");
+            Serial.print(BT3);
+            const char charBuf3[50];
+            BT3.toCharArray(charBuf3, 50) ;
+            
+            Serial.print("Char buff3: ");
+            Serial.print(charBuf3);
+            txdata.longBT3 = atol(charBuf3);
+            
+            Serial.print(" longBT3: ");
+            Serial.print(txdata.longBT3); 
+            
+
+    }
+    
+//ENDBT
+
+Serial.print("Getting out: ");
 
     int val = 0;
     val = analogRead(A0);

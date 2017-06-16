@@ -156,7 +156,7 @@ void receiveData(){
     }
 
 
-    int val = 0;
+    float val = 0;
     val = analogRead(A0);
     val = map(val, 0, 822, 0, 48);
     if(isnan(val))
