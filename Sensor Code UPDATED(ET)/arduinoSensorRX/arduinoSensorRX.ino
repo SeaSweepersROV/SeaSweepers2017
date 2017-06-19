@@ -107,6 +107,8 @@ void printData(){
     fullBT += String(rxdata.longBT1);
     fullBT += String(rxdata.longBT2);
     fullBT += String(rxdata.longBT3);
+    Serial.println(fullBT);
+    
    Serial.print("bluetooth");
    for(int i = 0; i <= 18; i++){
           stringPartToConvert += fullBT[i];
@@ -115,6 +117,7 @@ void printData(){
             stringPartToConvert = "";
           }
    }
+    
       fullBT = "";
     Serial.println("");
 
