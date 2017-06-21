@@ -173,13 +173,11 @@ void receiveData(){
     String newStr = "";
     bool found = false;
     
+    
     BTserial.begin(9600);
     if (BTserial.available())
     {  
-      if(cc.length() > 7){
-          cc = "";
-      }
-      
+       cc = "";
         while(true){
          c = BTserial.read();
          if(cc.length() >= 7|| int(c) <= -1){
@@ -192,7 +190,7 @@ void receiveData(){
             Serial.println(cc);
             
         }
-
+        
         BTserial.end();
         //delay(79);
         Serial.println("exit");
