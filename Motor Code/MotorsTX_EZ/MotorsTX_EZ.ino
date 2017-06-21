@@ -43,7 +43,7 @@ int Valve2Switch = 28;
 int Valve2State;
 int MagnetSwitch = 32;
 int MagnetState;
-int SensSwitch = 30; // to adjust sensitivity to half (REPLACED MAGNETFOR NOW
+int SensSwitch = 30; // to adjust sensitivity to half
 int SensState;
 
 
@@ -65,23 +65,22 @@ void setup() {
 void loop() {
   ReadandMap();
   Switches();
-  Serial.println(data.MagnetVal);
   ET.sendData();
   delay(10);
 }
 
 void ReadandMap () {
   SensState = digitalRead(SensSwitch);
-  if (SensState == HIGH) {
-    data.Joystick1A = (((2*(analogRead(Pin1A))) / 5) + 308); //if switch is on, half joystick values that are sent
-    data.Joystick1B = (((2*(analogRead(Pin1B))) / 5) + 308);
+  if (SensState == LOW) {
+    data.Joystick1A = (((2*(analogRead(Pin1A))) / 5) + 308);  //if switch is on, half joystick values that are sent
+    data.Joystick1B = (((2*(analogRead(Pin1B))) / 5) + 308);  
     data.Joystick1C = (((2*(analogRead(Pin1C))) / 5) + 308);
     data.Joystick2A = (((2*(analogRead(Pin2A))) / 5) + 308);
     data.Joystick2B = (((2*(analogRead(Pin2B))) / 5) + 308);
-    data.Joystick2C = (((2*(analogRead(Pin2C))) / 5) + 308);
+    data.Joystick2C = (((2*(analogRead(Pin2C))) / 4) + 256);  // SPECIAL CASE: Crab was too weak, so its joystick values will be higher
   }
-  if (SensState == LOW) {
-    data.Joystick1A = (((3*(analogRead(Pin1A))) / 4) + 128);   //reads joysticks and splits them into bytes
+  if (SensState == HIGH) {
+    data.Joystick1A = (((3*(analogRead(Pin1A))) / 4) + 128);
     data.Joystick1B = (((3*(analogRead(Pin1B))) / 4) + 128);
     data.Joystick1C = (((3*(analogRead(Pin1C))) / 4) + 128);
     data.Joystick2A = (((3*(analogRead(Pin2A))) / 4) + 128);
