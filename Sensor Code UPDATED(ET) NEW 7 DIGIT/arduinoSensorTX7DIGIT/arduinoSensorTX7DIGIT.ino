@@ -176,7 +176,7 @@ void receiveData(){
     
     BTserial.begin(9600);
     if (BTserial.available())
-    {  
+    {
        cc = "";
         while(true){
          c = BTserial.read();
