@@ -421,10 +421,3 @@ void Magnet() {
 void FunLEDs() {      //accent lights to add later
 
 }
-
-void VertStabilization() {  //if we ever get around to stabilization it'll go here
-
-
-
-}
-
