@@ -1,5 +1,4 @@
 
-
 /* Sensor ROV TX Code for the 2017 Season
 -----------------------------------------------------
 Transmitting sensor info using EasyTransfer library.
@@ -226,7 +225,7 @@ void receiveData(){
          
             Serial.print(" String BT1: ");
             Serial.print(BT1);
-            const char charBuf1[50];
+            char charBuf1[50];
             BT1.toCharArray(charBuf1, 50);
             
             Serial.print("Char buff1: ");
@@ -241,14 +240,14 @@ void receiveData(){
         
              Serial.print(" String BT2: ");
             Serial.print(BT2);
-            const char charBuf2[50];
+            char charBuf2[50];
             BT2.toCharArray(charBuf2, 50) ;
             
             Serial.print("Char buff2: ");
             Serial.print(charBuf2);
             txdata.longBT2 = atol(charBuf2);
             
-            Serial.print(" longBT2: ");
+            Serial.print(" longBT2: ");  
             Serial.print(txdata.longBT2);
         
         
@@ -256,7 +255,7 @@ void receiveData(){
         
             Serial.print(" String BT3: ");
             Serial.print(BT3);
-            const char charBuf3[50];
+            char charBuf3[50];
             BT3.toCharArray(charBuf3, 50) ;
             
             Serial.print("Char buff3: ");
